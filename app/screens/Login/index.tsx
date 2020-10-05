@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Text, Button, TextInput } from 'react-native-paper';
+import { Button, TextInput } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
 import * as loginActions from 'app/store/actions/loginActions';
@@ -13,10 +13,27 @@ interface IState {
 }
 
 const Login: React.FC = () => {
-  const [text, setText] = React.useState('');
-  const id = useSelector((state: IState) => state.loginReducer.id);
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const id = useSelector((state: any) => state);
+  const [emailError, setEmailError] = React.useState(false);
+  const [passwordError, setPasswordError] = React.useState(false);
   const dispatch = useDispatch();
-  const onLogin = () => dispatch(loginActions.requestLogin('test', '1234'));
+  const onChangeEmail = (email: string) => setEmail(email);
+  const onChangePassword = (password: string) => setPassword(password);
+  const validateEmail = (email: string) => {
+    var validEmailRegEx = /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([\.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i;
+    var isEmailValid = validEmailRegEx.test(email);
+    return isEmailValid;
+  };
+  const onLogin = () => {
+    const validEmail = validateEmail(email);
+    if (validEmail) {
+      return dispatch(loginActions.requestLogin(email, password));
+    }
+    setEmailError(true);
+    setPasswordError(true);
+  };
   const onForgot = () => NavigationService.navigate('ForgotPassword');
   return (
     <View style={styles.container}>
@@ -47,8 +64,9 @@ const Login: React.FC = () => {
           style={styles.inputContainerStyle}
           label="Email"
           placeholder="Enter your email"
-          value={text}
-          onChangeText={(text) => setText(text)}
+          value={email}
+          onChangeText={onChangeEmail}
+          error={emailError}
         />
       </View>
       <View style={{ width: '100%' }}>
@@ -57,10 +75,11 @@ const Login: React.FC = () => {
           style={styles.inputContainerStyle}
           label="Password"
           placeholder="Enter Your Password"
-          value={text}
-          onChangeText={(text) => setText(text)}
+          value={password}
+          onChangeText={onChangePassword}
           textContentType="password"
           secureTextEntry={true}
+          error={passwordError}
         />
       </View>
       <View style={{ width: '100%' }}>

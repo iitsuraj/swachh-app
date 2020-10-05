@@ -1,38 +1,29 @@
 import * as React from 'react';
-import { View, SafeAreaView, Image } from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  Image,
+  TextInput,
+  ToastAndroid,
+} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Title, Card, Divider, FAB } from 'react-native-paper';
+import { Title, Card, Divider, FAB, IconButton } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FileViewer from 'react-native-file-viewer';
 import { StyleSheet } from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 const TaskScreen: React.Fc = ({ route }) => {
-  const [state, setState] = React.useState({
-    Images: [
-      'content://media/external/images/media/562298',
-      'content://media/external/images/media/562299',
-      'content://media/external/images/media/562300',
-      'content://media/external/images/media/562301',
-      'content://media/external/images/media/562302',
-      'content://media/external/images/media/562303',
-      'content://media/external/images/media/562304',
-    ],
-  });
-  const onStateChange = ({ Images }) => setState({ Images });
-
-  const { Images } = state;
+  // const [state, setState] = React.useState({
+  //   Images: [],
+  // });
+  const [Images, setImages] = React.useState([]);
+  const setImage = (data: any[]) => setImages(data);
   const uploadFiles = async () => {
     try {
       const results = await DocumentPicker.pickMultiple({
         type: [DocumentPicker.types.images],
       });
-      for (const res of results) {
-        console.log(
-          res.uri,
-          res.type, // mime type
-          res.name,
-          res.size,
-        );
-      }
+      setImage([...Images, ...results]);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         // User cancelled the picker, exit any dialogs or menus and move on
@@ -42,42 +33,81 @@ const TaskScreen: React.Fc = ({ route }) => {
     }
   };
   const openFile = async (file) => {
-    await FileViewer.open(file);
+    try {
+      await FileViewer.open(file);
+    } catch (error) {
+      ToastAndroid.show('File not found', ToastAndroid.SHORT);
+    }
   };
+
   return (
     <SafeAreaView>
       <View
         style={{
-          marginLeft: 8,
-          marginRight: 8,
           height: '100%',
           width: '100%',
+          position: 'relative',
         }}>
-        <Title style={{ fontWeight: 'bold' }}>{route.params.name}</Title>
-        <ScrollView horizontal={true} ItemSeparatorComponent={Divider}>
-          {Images.map((image, index) => (
-            <Card
-              key={index}
-              onPress={() => openFile(image)}
-              style={{
-                margin: 8,
-                height: 100,
-                width: 100,
-              }}>
-              <Image
-                source={{ uri: `${image}`, isStatus: true }}
-                style={{ resizeMode: 'cover', width: '100%', height: '100%' }}
-              />
-            </Card>
-          ))}
+        <ScrollView>
+          <View
+            style={{
+              margin: 8,
+              marginBottom: 50,
+            }}>
+            {route.params.data.map((data: any, index: number) => {
+              return (
+                <View key={data.title}>
+                  <View
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                    }}>
+                    <Title key={data.title}>
+                      {index + 1}. {data.title}
+                    </Title>
+                  </View>
+                  <Divider />
+                </View>
+              );
+            })}
+            <ScrollView horizontal={true} ItemSeparatorComponent={Divider}>
+              {Images.map((image, index) => (
+                <Card
+                  key={index}
+                  onPress={() => openFile(image.uri)}
+                  style={{
+                    margin: 8,
+                    height: 100,
+                    width: 100,
+                  }}>
+                  <Image
+                    source={{ uri: `${image.uri}`, isStatus: true }}
+                    style={{
+                      resizeMode: 'cover',
+                      width: '100%',
+                      height: '100%',
+                    }}
+                  />
+                </Card>
+              ))}
+            </ScrollView>
+          </View>
         </ScrollView>
 
-        <View>
-          <FAB
-            style={styles.fab}
-            // label="Upload"
-            icon="upload"
-            onPress={uploadFiles}
+        <View style={styles.searchSection}>
+          <IconButton icon="paperclip" size={25} onPress={uploadFiles} />
+          <TextInput
+            style={styles.input}
+            placeholder="Comment"
+            // onChangeText={(searchString) => {
+            //   this.setState({ searchString });
+            // }}
+            underlineColorAndroid="transparent"
+          />
+          <IconButton
+            icon="send"
+            size={25}
+            onPress={() => console.log('Pressed')}
           />
         </View>
       </View>
@@ -92,5 +122,28 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0,
+  },
+  searchSection: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+  },
+  searchIcon: {
+    padding: 10,
+  },
+  input: {
+    flex: 1,
+    paddingTop: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+    paddingLeft: 0,
+    backgroundColor: '#fff',
+    color: '#424242',
   },
 });

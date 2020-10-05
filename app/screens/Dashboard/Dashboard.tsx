@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, SafeAreaView, ScrollView } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Card,
   Title,
@@ -10,6 +11,7 @@ import {
 import styles from './styles';
 
 const Dashboard: React.FC = () => {
+  const dashboard = useSelector((state: any) => state.dashboardReducer);
   return (
     <SafeAreaView>
       <ScrollView>
@@ -27,7 +29,9 @@ const Dashboard: React.FC = () => {
                     <Caption>Assigned Factory</Caption>
                   </View>
                   <View>
-                    <Text style={[styles.title, styles.number]}>90</Text>
+                    <Text style={[styles.title, styles.number]}>
+                      {dashboard.totalAssigned}
+                    </Text>
                   </View>
                 </View>
               </TouchableRipple>
@@ -44,7 +48,9 @@ const Dashboard: React.FC = () => {
                     <Caption>Inspected Factory</Caption>
                   </View>
                   <View>
-                    <Text style={[styles.title, styles.number]}>90</Text>
+                    <Text style={[styles.title, styles.number]}>
+                      {dashboard.totalDone}
+                    </Text>
                   </View>
                 </View>
               </TouchableRipple>
@@ -61,7 +67,9 @@ const Dashboard: React.FC = () => {
                     <Caption>Remaining Factory</Caption>
                   </View>
                   <View>
-                    <Text style={[styles.title, styles.number]}>90</Text>
+                    <Text style={[styles.title, styles.number]}>
+                      {dashboard.totalRemaining}
+                    </Text>
                   </View>
                 </View>
               </TouchableRipple>

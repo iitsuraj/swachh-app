@@ -8,7 +8,7 @@ import { navigationRef } from './NavigationService';
 
 import Login from 'app/screens/Login';
 import DashboardScreen from 'app/screens/Dashboard';
-import InsepectionScreen from 'app/screens/Insepection';
+import InsepectionScreen from 'app/screens/Inspection';
 import FactoryScreen from 'app/screens/Factory';
 import ForgotPassword from 'app/screens/ForgotPassword';
 import TaskScreen from 'app/screens/TaskScreen';

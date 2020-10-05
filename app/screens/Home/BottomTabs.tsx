@@ -2,7 +2,7 @@ import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Text } from 'react-native-paper';
 import Dashboard from '../Dashboard';
-import Insepection from '../Insepection';
+import inspection from '../inspection';
 
 const Message = () => <Text>Recents</Text>;
 const Tab = createMaterialBottomTabNavigator();
@@ -18,8 +18,8 @@ const BottomTabs = () => {
           }}
         />
         <Tab.Screen
-          name="Insepection"
-          component={Insepection}
+          name="inspection"
+          component={inspection}
           options={{
             tabBarIcon: 'bell-outline',
           }}
