@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
-import { SafeAreaView, ScrollView, View, VirtualizedList } from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  VirtualizedList,
+  ToastAndroid,
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Text,
@@ -95,6 +101,12 @@ const Factory: React.FC = () => {
               label: 'Mark Entry',
               icon: 'camera',
               onPress: () => NavigationService.navigate('Camera'),
+            },
+            {
+              label: 'SOS',
+              icon: 'car-brake-alert',
+              onPress: () =>
+                ToastAndroid.show('Reported to CPCB', ToastAndroid.SHORT),
             },
             // {
             //   label: 'Mark Exit',

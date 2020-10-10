@@ -7,11 +7,19 @@ import {
   ToastAndroid,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Title, Card, Divider, FAB, IconButton } from 'react-native-paper';
+import {
+  Title,
+  Card,
+  Divider,
+  FAB,
+  IconButton,
+  Button,
+} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FileViewer from 'react-native-file-viewer';
 import { StyleSheet } from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
+import NavigationService from 'app/navigation/NavigationService';
 const TaskScreen: React.Fc = ({ route }) => {
   // const [state, setState] = React.useState({
   //   Images: [],
@@ -40,6 +48,8 @@ const TaskScreen: React.Fc = ({ route }) => {
     }
   };
 
+  const openCamera = () => NavigationService.navigate('Camera');
+
   return (
     <SafeAreaView>
       <View
@@ -49,67 +59,77 @@ const TaskScreen: React.Fc = ({ route }) => {
           position: 'relative',
         }}>
         <ScrollView>
-          <View
-            style={{
-              margin: 8,
-              marginBottom: 50,
-            }}>
-            {route.params.data.map((data: any, index: number) => {
-              return (
-                <View key={data.title}>
-                  <View
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                    }}>
-                    <Title key={data.title}>
-                      {index + 1}. {data.title}
-                    </Title>
+          <View style={{ width: '100%', height: '100%', position: 'relative' }}>
+            <View
+              style={{
+                margin: 8,
+              }}>
+              {route.params.data.map((data: any, index: number) => {
+                return (
+                  <View key={data.title}>
+                    <View
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}>
+                      <Title key={data.title}>
+                        {index + 1}. {data.title}
+                      </Title>
+                    </View>
+                    <Divider />
                   </View>
-                  <Divider />
-                </View>
-              );
-            })}
-            <ScrollView horizontal={true} ItemSeparatorComponent={Divider}>
-              {Images.map((image, index) => (
-                <Card
-                  key={index}
-                  onPress={() => openFile(image.uri)}
-                  style={{
-                    margin: 8,
-                    height: 100,
-                    width: 100,
-                  }}>
-                  <Image
-                    source={{ uri: `${image.uri}`, isStatus: true }}
+                );
+              })}
+              <ScrollView horizontal={true} ItemSeparatorComponent={Divider}>
+                {Images.map((image, index) => (
+                  <Card
+                    key={index}
+                    onPress={() => openFile(image.uri)}
                     style={{
-                      resizeMode: 'cover',
-                      width: '100%',
-                      height: '100%',
-                    }}
-                  />
-                </Card>
-              ))}
-            </ScrollView>
+                      margin: 8,
+                      height: 100,
+                      width: 100,
+                    }}>
+                    <Image
+                      source={{ uri: `${image.uri}`, isStatus: true }}
+                      style={{
+                        resizeMode: 'cover',
+                        width: '100%',
+                        height: '100%',
+                      }}
+                    />
+                  </Card>
+                ))}
+              </ScrollView>
+            </View>
+            <View style={styles.searchSection}>
+              <View
+                style={{
+                  // flex: 1,
+                  flexDirection: 'column',
+                  justifyContent: 'flex-start',
+                }}>
+                <IconButton icon="paperclip" size={25} onPress={uploadFiles} />
+                <IconButton icon="camera" size={25} onPress={openCamera} />
+              </View>
+              <TextInput
+                style={styles.input}
+                placeholder="Comment"
+                // onChangeText={(searchString) => {
+                //   this.setState({ searchString });
+                // }}
+                underlineColorAndroid="transparent"
+                multiline={true}
+                numberOfLines={4}
+              />
+            </View>
+            <View style={{ margin: 8 }}>
+              <Button icon="upload" mode="contained">
+                Submit
+              </Button>
+            </View>
           </View>
         </ScrollView>
-
-        <View style={styles.searchSection}>
-          <IconButton icon="paperclip" size={25} onPress={uploadFiles} />
-          <TextInput
-            style={styles.input}
-            placeholder="Comment"
-            // onChangeText={(searchString) => {
-            //   this.setState({ searchString });
-            // }}
-            underlineColorAndroid="transparent"
-          />
-          <IconButton
-            icon="send"
-            size={25}
-            onPress={() => console.log('Pressed')}
-          />
-        </View>
       </View>
     </SafeAreaView>
   );
@@ -130,9 +150,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     width: '100%',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
+    // position: 'absolute',
+    // bottom: 0,
+    // left: 0,
   },
   searchIcon: {
     padding: 10,

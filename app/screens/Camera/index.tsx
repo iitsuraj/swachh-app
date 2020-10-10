@@ -13,42 +13,9 @@ import {
 import CameraRoll from '@react-native-community/cameraroll';
 import { RNCamera } from 'react-native-camera';
 import Geolocation from '@react-native-community/geolocation';
-class ExampleApp extends PureComponent {
-  render() {
-    return (
-      <View style={styles.container}>
-        <RNCamera
-          ref={(ref) => {
-            this.camera = ref;
-          }}
-          style={styles.preview}
-          type={RNCamera.Constants.Type.front}
-          flashMode={RNCamera.Constants.FlashMode.on}
-          androidCameraPermissionOptions={{
-            title: 'Permission to use camera',
-            message: 'We need your permission to use your camera',
-            buttonPositive: 'Ok',
-            buttonNegative: 'Cancel',
-          }}
-          androidRecordAudioPermissionOptions={{
-            title: 'Permission to use audio recording',
-            message: 'We need your permission to use your audio',
-            buttonPositive: 'Ok',
-            buttonNegative: 'Cancel',
-          }}>
-          <View
-            style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-            <TouchableOpacity
-              onPress={this.takePicture.bind(this)}
-              style={styles.capture}>
-              <Text style={{ fontSize: 14 }}> SNAP </Text>
-            </TouchableOpacity>
-          </View>
-        </RNCamera>
-      </View>
-    );
-  }
 
+import NavigationService from 'app/navigation/NavigationService';
+class ExampleApp extends PureComponent {
   takePicture = async function () {
     if (this.camera) {
       var options = {
@@ -93,12 +60,46 @@ class ExampleApp extends PureComponent {
             type: 'auto',
             album: 'factoryvisit',
           }).then((data) => {
-            console.log(data);
+            NavigationService.goBack();
           });
           //   console.log(data.uri);
         });
     }
   };
+  render() {
+    return (
+      <View style={styles.container}>
+        <RNCamera
+          ref={(ref) => {
+            this.camera = ref;
+          }}
+          style={styles.preview}
+          type={RNCamera.Constants.Type.front}
+          flashMode={RNCamera.Constants.FlashMode.on}
+          androidCameraPermissionOptions={{
+            title: 'Permission to use camera',
+            message: 'We need your permission to use your camera',
+            buttonPositive: 'Ok',
+            buttonNegative: 'Cancel',
+          }}
+          androidRecordAudioPermissionOptions={{
+            title: 'Permission to use audio recording',
+            message: 'We need your permission to use your audio',
+            buttonPositive: 'Ok',
+            buttonNegative: 'Cancel',
+          }}>
+          <View
+            style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+            <TouchableOpacity
+              onPress={this.takePicture.bind(this)}
+              style={styles.capture}>
+              <Text style={{ fontSize: 14 }}> SNAP </Text>
+            </TouchableOpacity>
+          </View>
+        </RNCamera>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

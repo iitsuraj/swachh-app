@@ -22,4 +22,4 @@ const initialState: Iinspection = {
   ],
 };
 
-export const dashboardReducer = createReducer(initialState, {});
+export const inspectionReducer = createReducer(initialState, {});

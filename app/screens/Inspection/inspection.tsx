@@ -19,9 +19,8 @@ import {
   Colors,
   TouchableRipple,
 } from 'react-native-paper';
+import Geolocation from '@react-native-community/geolocation';
 import NavigationService from 'app/navigation/NavigationService';
-
-// const DATA: any[] = [{ name: 'suraj' }, { name: 'suraj2' }, { name: 'suraj3' }];
 
 const getItem = (data: any, index: number) => {
   return {
@@ -38,13 +37,9 @@ const getItemCount = (data: any) => {
 const Item = (data: any) => {
   const onDirection = () => {
     const data = {
-      source: {
-        latitude: -33.8356372,
-        longitude: 18.6947617,
-      },
       destination: {
-        latitude: -33.8600024,
-        longitude: 18.697459,
+        latitude: 28.1601922,
+        longitude: 75.5235159,
       },
       params: [
         {
@@ -54,20 +49,6 @@ const Item = (data: any) => {
         {
           key: 'dir_action',
           value: 'navigate', // this instantly initializes navigation using the given travel mode
-        },
-      ],
-      waypoints: [
-        {
-          latitude: -33.8600025,
-          longitude: 18.697452,
-        },
-        {
-          latitude: -33.8600026,
-          longitude: 18.697453,
-        },
-        {
-          latitude: -33.8600036,
-          longitude: 18.697493,
         },
       ],
     };
@@ -116,7 +97,7 @@ const FlatListItemSeparator = () => {
 };
 
 const VirtualizedListExample = () => {
-  const DATA = useSelector((state: any) => state.dashboardReducer.factory);
+  const DATA = useSelector((state: any) => state.inspectionReducer.factory);
 
   return (
     <SafeAreaView style={styles.container}>

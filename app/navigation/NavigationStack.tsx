@@ -124,21 +124,6 @@ const InsepectionStackScreen = () => (
         headerRight: () => <ThemeController />,
       }}
     />
-    <Insepection.Screen
-      name="Factory"
-      component={FactoryScreen}
-      options={({ route }) => ({
-        title: route.params.name,
-      })}
-    />
-    <Insepection.Screen
-      name="Task"
-      component={TaskScreen}
-      options={({ route }) => ({
-        title: route.params.name,
-      })}
-    />
-    <Insepection.Screen name="Camera" component={CameraScreen} />
   </Insepection.Navigator>
 );
 
@@ -158,13 +143,32 @@ const App: React.FC<IProps> = (props: IProps) => {
     <NavigationContainer ref={navigationRef} theme={theme}>
       <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
 
-      <Stack.Navigator headerMode="none">
+      <Stack.Navigator>
         {isLoggedIn ? (
-          <Stack.Screen
-            name="Home"
-            component={LoggedInNavigator}
-            // options={homeOptions}
-          />
+          <>
+            <Stack.Screen
+              name="Home"
+              component={LoggedInNavigator}
+              // options={homeOptions}
+              options={{ headerShown: false }}
+            />
+
+            <Insepection.Screen
+              name="Factory"
+              component={FactoryScreen}
+              options={({ route }) => ({
+                title: route.params.name,
+              })}
+            />
+            <Insepection.Screen
+              name="Task"
+              component={TaskScreen}
+              options={({ route }) => ({
+                title: route.params.name,
+              })}
+            />
+            <Insepection.Screen name="Camera" component={CameraScreen} />
+          </>
         ) : (
           <Stack.Screen
             name="Login"
