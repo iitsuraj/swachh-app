@@ -56,7 +56,10 @@ const Item = (data: any) => {
     getDirections(data);
   };
   const onFactory = () =>
-    NavigationService.navigate('Factory', { name: data.name.name });
+    NavigationService.navigate('Factory', {
+      name: data.name.name,
+      geo: { lat: 23.364504, lon: 85.250418 },
+    });
   return (
     <Card
       style={{
