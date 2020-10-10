@@ -100,7 +100,8 @@ const Factory: React.FC = () => {
             {
               label: 'Mark Entry',
               icon: 'camera',
-              onPress: () => NavigationService.navigate('Camera'),
+              onPress: () =>
+                NavigationService.navigate('Camera', { type: 'front' }),
             },
             {
               label: 'SOS',

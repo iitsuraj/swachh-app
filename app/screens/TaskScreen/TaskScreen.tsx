@@ -48,7 +48,8 @@ const TaskScreen: React.Fc = ({ route }) => {
     }
   };
 
-  const openCamera = () => NavigationService.navigate('Camera');
+  const openCamera = () =>
+    NavigationService.navigate('Camera', { type: 'back' });
 
   return (
     <SafeAreaView>

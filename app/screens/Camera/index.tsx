@@ -74,7 +74,11 @@ class ExampleApp extends PureComponent {
             this.camera = ref;
           }}
           style={styles.preview}
-          type={RNCamera.Constants.Type.front}
+          type={
+            this.props.route.params.type === 'front'
+              ? RNCamera.Constants.Type.front
+              : RNCamera.Constants.Type.back
+          }
           flashMode={RNCamera.Constants.FlashMode.on}
           androidCameraPermissionOptions={{
             title: 'Permission to use camera',
