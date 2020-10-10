@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "RNBoilerPlate-tvOS.app"
-               BlueprintName = "RNBoilerPlate-tvOS"
-               ReferencedContainer = "container:RNBoilerPlate.xcodeproj">
+               BuildableName = "Swachh-tvOS.app"
+               BlueprintName = "Swachh-tvOS"
+               ReferencedContainer = "container:Swachh.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "RNBoilerPlate-tvOSTests.xctest"
-               BlueprintName = "RNBoilerPlate-tvOSTests"
-               ReferencedContainer = "container:RNBoilerPlate.xcodeproj">
+               BuildableName = "Swachh-tvOSTests.xctest"
+               BlueprintName = "Swachh-tvOSTests"
+               ReferencedContainer = "container:Swachh.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "RNBoilerPlate-tvOS.app"
-            BlueprintName = "RNBoilerPlate-tvOS"
-            ReferencedContainer = "container:RNBoilerPlate.xcodeproj">
+            BuildableName = "Swachh-tvOS.app"
+            BlueprintName = "Swachh-tvOS"
+            ReferencedContainer = "container:Swachh.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "RNBoilerPlate-tvOS.app"
-            BlueprintName = "RNBoilerPlate-tvOS"
-            ReferencedContainer = "container:RNBoilerPlate.xcodeproj">
+            BuildableName = "Swachh-tvOS.app"
+            BlueprintName = "Swachh-tvOS"
+            ReferencedContainer = "container:Swachh.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
