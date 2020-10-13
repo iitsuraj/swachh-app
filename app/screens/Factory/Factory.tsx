@@ -61,7 +61,7 @@ const Factory: React.FC = ({ route }) => {
       Number(route.params.geo.lon),
     );
     // console.log(distance);
-    if (distance < 0.3) {
+    if (distance < 0.5) {
       setLocationStatus(1);
     } else {
       setLocationStatus(3);
