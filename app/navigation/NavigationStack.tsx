@@ -11,7 +11,7 @@ import DashboardScreen from 'app/screens/Dashboard';
 import InsepectionScreen from 'app/screens/Inspection';
 import FactoryScreen from 'app/screens/Factory';
 import ForgotPassword from 'app/screens/ForgotPassword';
-import TaskScreen from 'app/screens/TaskScreen';
+import FormSubmission from 'app/screens/FormSubmission';
 import CameraScreen from 'app/screens/Camera';
 import ThemeController from '../components/ThemeController';
 import { StatusBar } from 'react-native';
@@ -161,11 +161,8 @@ const App: React.FC<IProps> = (props: IProps) => {
               })}
             />
             <Insepection.Screen
-              name="Task"
-              component={TaskScreen}
-              options={({ route }) => ({
-                title: route.params.name,
-              })}
+              name="Factory Details"
+              component={FormSubmission}
             />
             <Insepection.Screen name="Camera" component={CameraScreen} />
           </>

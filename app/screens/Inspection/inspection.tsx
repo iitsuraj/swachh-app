@@ -1,3 +1,7 @@
+/**
+ * Show Pollution Source list
+ */
+
 import React from 'react';
 import {
   SafeAreaView,

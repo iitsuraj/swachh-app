@@ -1,75 +1,16 @@
+/**
+ * Show TaskScreen List
+ * 1. From Submission
+ * 2. Image Submission
+ */
+
 import React, { useEffect } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  VirtualizedList,
-  ToastAndroid,
-} from 'react-native';
+import { SafeAreaView, View, ToastAndroid } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Text,
-  Card,
-  Divider,
-  Caption,
-  Title,
-  IconButton,
-  Colors,
-  TouchableRipple,
-  FAB,
-} from 'react-native-paper';
+import { Title, FAB, Button } from 'react-native-paper';
 
 import NavigationService from 'app/navigation/NavigationService';
 import Geolocation from '@react-native-community/geolocation';
-
-const getItem = (data: any, index: number) => {
-  return {
-    data: data[index],
-  };
-};
-
-const getItemCount = (data: any) => {
-  return data.length;
-};
-
-const Item = (data) => {
-  const onClick = () =>
-    NavigationService.navigate('Task', {
-      name: data.factory.data.category,
-      data: data.factory.data.kra,
-    });
-  // console.log(data);
-  return (
-    <Card
-      style={{
-        width: '100%',
-        height: 100,
-        borderRadius: 0,
-        borderLeftColor: 'blue',
-        borderLeftWidth: 5,
-      }}
-      key={data.factory.data.category}>
-      <TouchableRipple
-        onPress={onClick}
-        rippleColor="rgba(0, 0, 0, .32)"
-        borderless={true}
-        style={{ width: '100%', height: '100%', padding: 20 }}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            position: 'relative',
-          }}>
-          <Title>{data.factory.data.category}</Title>
-        </View>
-      </TouchableRipple>
-    </Card>
-  );
-};
-
-const FlatListItemSeparator = () => {
-  return <Divider />;
-};
 
 const Factory: React.FC = ({ route }) => {
   const [state, setState] = React.useState({ open: false });
@@ -136,6 +77,9 @@ const Factory: React.FC = ({ route }) => {
     console.log(err);
   };
 
+  const gotToFormSubmission = () =>
+    NavigationService.navigate('Factory Details');
+
   const LocationStatus = () => {
     switch (locationStatus) {
       case 0:
@@ -151,15 +95,21 @@ const Factory: React.FC = ({ route }) => {
         );
       case 1:
         return (
-          <VirtualizedList
-            data={factory.inspections}
-            initialNumToRender={4}
-            renderItem={({ item }) => <Item factory={item} />}
-            keyExtractor={(item) => item.data.category}
-            getItemCount={getItemCount}
-            getItem={getItem}
-            ItemSeparatorComponent={FlatListItemSeparator}
-          />
+          <View style={{ flex: 1, flexDirection: 'column' }}>
+            <Button
+              mode="contained"
+              onPress={gotToFormSubmission}
+              style={{ margin: 20 }}>
+              Submit factory data
+            </Button>
+            <Button
+              icon="camera"
+              mode="contained"
+              onPress={() => console.log('Pressed')}
+              style={{ margin: 20 }}>
+              Submit photos
+            </Button>
+          </View>
         );
       case 2:
         return (
