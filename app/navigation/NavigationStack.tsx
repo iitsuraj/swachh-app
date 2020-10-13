@@ -16,7 +16,7 @@ import CameraScreen from 'app/screens/Camera';
 import ThemeController from '../components/ThemeController';
 import { StatusBar } from 'react-native';
 import { ILoginState } from 'app/models/reducers/login';
-
+import Sos from 'app/screens/Sos';
 const Stack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const LoggedInStack = createStackNavigator();
@@ -164,6 +164,7 @@ const App: React.FC<IProps> = (props: IProps) => {
               name="Factory Details"
               component={FormSubmission}
             />
+            <Insepection.Screen name="Report Factory" component={Sos} />
             <Insepection.Screen name="Camera" component={CameraScreen} />
           </>
         ) : (

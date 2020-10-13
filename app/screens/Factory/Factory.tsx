@@ -158,8 +158,7 @@ const Factory: React.FC = ({ route }) => {
               {
                 label: 'SOS',
                 icon: 'car-brake-alert',
-                onPress: () =>
-                  ToastAndroid.show('Reported to CPCB', ToastAndroid.SHORT),
+                onPress: () => NavigationService.navigate('Report Factory'),
               },
               // {
               //   label: 'Mark Exit',

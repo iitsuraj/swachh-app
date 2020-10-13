@@ -112,7 +112,8 @@ const FormSubmission: React.FC = ({ route }) => {
                 </RadioButton.Group>
               </View>
             ) : null}
-            {nonOperationalStatus === 'others' ? (
+            {nonOperationalStatus === 'others' &&
+            unitStatus === 'non-operational' ? (
               <TextInput
                 style={styles.inputContainerStyle}
                 placeholder="Reason...."
