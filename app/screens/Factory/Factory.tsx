@@ -15,7 +15,7 @@ import Geolocation from '@react-native-community/geolocation';
 const Factory: React.FC = ({ route }) => {
   const [state, setState] = React.useState({ open: false });
   const factory = useSelector((state: any) => state.factoryReducer);
-  // console.log(factory);
+  let mounted = true;
   const onStateChange = ({ open }) => setState({ open });
   const { open } = state;
   /**
@@ -23,8 +23,12 @@ const Factory: React.FC = ({ route }) => {
    * Camera Open
    * Show List
    */
+  console.log(mounted);
   useEffect(() => {
     Geolocation.getCurrentPosition(success, error, options);
+    return function cleanup() {
+      mounted = false;
+    };
   }, []);
   const [locationStatus, setLocationStatus] = React.useState(0); // Loading-0 | Ready to go-1 | Error-2 | Not in Range-3
 
@@ -53,18 +57,20 @@ const Factory: React.FC = ({ route }) => {
     return (Value * Math.PI) / 180;
   };
   const success = (pos) => {
-    var crd = pos.coords;
-    const distance = calcCrow(
-      Number(crd.latitude),
-      Number(crd.longitude),
-      Number(route.params.geo.lat),
-      Number(route.params.geo.lon),
-    );
-    // console.log(distance);
-    if (distance < 0.5) {
-      setLocationStatus(1);
-    } else {
-      setLocationStatus(3);
+    if (mounted) {
+      var crd = pos.coords;
+      const distance = calcCrow(
+        Number(crd.latitude),
+        Number(crd.longitude),
+        Number(route.params.geo.lat),
+        Number(route.params.geo.lon),
+      );
+      // console.log(distance);
+      if (distance < 0.5) {
+        setLocationStatus(1);
+      } else {
+        setLocationStatus(3);
+      }
     }
     // console.log('Your current position is:');
     // console.log(`Latitude : ${crd.latitude}`);
@@ -73,15 +79,19 @@ const Factory: React.FC = ({ route }) => {
   };
 
   const error = (err) => {
-    setLocationStatus(2);
-    console.log(err);
+    if (mounted) {
+      setLocationStatus(2);
+      console.log(err);
+    }
   };
 
   const gotToFormSubmission = () =>
     NavigationService.navigate('Factory Details');
-
+  // TODO: Remove this on production
+  const test = 1;
   const LocationStatus = () => {
-    switch (locationStatus) {
+    // switch (locationStatus) {
+    switch (test) {
       case 0:
         return (
           <View
@@ -105,7 +115,12 @@ const Factory: React.FC = ({ route }) => {
             <Button
               icon="camera"
               mode="contained"
-              onPress={() => console.log('Pressed')}
+              onPress={() =>
+                NavigationService.navigate('Camera', {
+                  type: 'back',
+                  redirectTo: 'Factory',
+                })
+              }
               style={{ margin: 20 }}>
               Submit photos
             </Button>
@@ -153,7 +168,10 @@ const Factory: React.FC = ({ route }) => {
                 label: 'Mark Entry',
                 icon: 'camera',
                 onPress: () =>
-                  NavigationService.navigate('Camera', { type: 'front' }),
+                  NavigationService.navigate('Camera', {
+                    type: 'front',
+                    redirectTo: 'Factory',
+                  }),
               },
               {
                 label: 'SOS',

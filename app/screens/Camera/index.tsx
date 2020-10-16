@@ -1,14 +1,12 @@
 'use strict';
 import React, { PureComponent } from 'react';
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   ToastAndroid,
   PermissionsAndroid,
-  Platform,
 } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
 import { RNCamera } from 'react-native-camera';
@@ -60,7 +58,9 @@ class ExampleApp extends PureComponent {
             type: 'auto',
             album: 'factoryvisit',
           }).then((data) => {
-            NavigationService.goBack();
+            NavigationService.navigate(this.props.route.params.redirectTo, {
+              uri: data.uri,
+            });
           });
           //   console.log(data.uri);
         });

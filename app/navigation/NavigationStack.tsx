@@ -17,6 +17,7 @@ import ThemeController from '../components/ThemeController';
 import { StatusBar } from 'react-native';
 import { ILoginState } from 'app/models/reducers/login';
 import Sos from 'app/screens/Sos';
+import Sector from 'app/screens/Sector';
 const Stack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const LoggedInStack = createStackNavigator();
@@ -26,7 +27,7 @@ const homeOptions = {
   tabBarIcon: 'home-account',
   tabBarLabel: 'Dashboard',
 };
-const InsepectionOptions = {
+const SectorOptions = {
   tabBarIcon: 'account-settings',
   tabBarLabel: 'Insepection',
 };
@@ -76,9 +77,9 @@ const TabScreen = () => (
       options={homeOptions}
     />
     <Tabs.Screen
-      name="Insepection"
-      component={InsepectionStackScreen}
-      options={InsepectionOptions}
+      name="Sectors"
+      component={SectorStackScreen}
+      options={SectorOptions}
     />
     {/* <Tabs.Screen name="Profile" component={ProfileScreen} /> */}
   </Tabs.Navigator>
@@ -99,24 +100,15 @@ const DashboardStackScreen = () => (
         headerRight: () => <ThemeController />,
       }}
     />
-    {/* <HomeStack.Screen
-      name="Details"
-      component={Details}
-      options={({ route }) => ({
-        title: route.params.name,
-      })}
-    /> */}
   </HomeStack.Navigator>
 );
-
-const Insepection = createStackNavigator();
-const InsepectionStackScreen = () => (
-  <Insepection.Navigator>
-    <Insepection.Screen
-      name=" Insepection"
-      component={InsepectionScreen}
+const SectorStackScreen = () => (
+  <HomeStack.Navigator>
+    <HomeStack.Screen
+      name="Sector"
+      component={Sector}
       options={{
-        title: 'Insepection',
+        title: 'Sector',
         headerTitleStyle: {
           fontWeight: 'bold',
         },
@@ -124,6 +116,13 @@ const InsepectionStackScreen = () => (
         headerRight: () => <ThemeController />,
       }}
     />
+  </HomeStack.Navigator>
+);
+
+const Insepection = createStackNavigator();
+const InsepectionStackScreen = () => (
+  <Insepection.Navigator>
+    <Insepection.Screen name=" FactoryList" component={InsepectionScreen} />
   </Insepection.Navigator>
 );
 
@@ -157,12 +156,19 @@ const App: React.FC<IProps> = (props: IProps) => {
               name="Factory"
               component={FactoryScreen}
               options={({ route }) => ({
-                title: route.params.name,
+                title: `${route.params.code} - ${route.params.unit}`,
               })}
             />
             <Insepection.Screen
               name="Factory Details"
               component={FormSubmission}
+            />
+            <Insepection.Screen
+              name="Factory List"
+              component={InsepectionScreen}
+              options={({ route }) => ({
+                title: `${route.params.sector} factory`,
+              })}
             />
             <Insepection.Screen name="Report Factory" component={Sos} />
             <Insepection.Screen name="Camera" component={CameraScreen} />
