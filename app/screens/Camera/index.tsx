@@ -10,43 +10,16 @@ import {
 } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
 import { RNCamera } from 'react-native-camera';
-import Geolocation from '@react-native-community/geolocation';
 
 import NavigationService from 'app/navigation/NavigationService';
 class ExampleApp extends PureComponent {
   takePicture = async function () {
     if (this.camera) {
       var options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0,
+        fixOrientation: true,
+        forceUpOrientation: true,
+        quality: 0.1,
       };
-      // Geolocation.getCurrentPosition(
-      //   async (location) => {
-      //     // console.log(location);
-      //     var options = {
-      //       quality: 0.1,
-      //       base64: true,
-      //     };
-      //     const data = await this.camera
-      //       .takePictureAsync(options)
-      //       .then(async (data) => {
-      //         ToastAndroid.show(data.uri, ToastAndroid.SHORT);
-      //         const permission =
-      //           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
-      //         await PermissionsAndroid.request(permission);
-      //         CameraRoll.save(data.uri, {
-      //           type: 'auto',
-      //           album: 'factoryvisit',
-      //         }).then((data) => {
-      //           console.log(data);
-      //         });
-      //         //   console.log(data.uri);
-      //       });
-      //   },
-      //   console.log,
-      //   options,
-      // );
       const data = await this.camera
         .takePictureAsync(options)
         .then(async (data) => {
@@ -62,7 +35,6 @@ class ExampleApp extends PureComponent {
               uri: data.uri,
             });
           });
-          //   console.log(data.uri);
         });
     }
   };

@@ -4,8 +4,14 @@
  * 2. Image Submission
  */
 
-import React, { useEffect } from 'react';
-import { SafeAreaView, View, StyleSheet, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  SafeAreaView,
+  View,
+  StyleSheet,
+  ScrollView,
+  ToastAndroid,
+} from 'react-native';
 // import { useDispatch, useSelector } from 'react-redux';
 import { Title, TextInput, RadioButton, Button } from 'react-native-paper';
 
@@ -31,6 +37,17 @@ const FormSubmission: React.FC = ({ route }) => {
     flowmeterEtpOutletStatus,
     setFlowmeterEtpOutletStatus,
   ] = React.useState('installed-working');
+  const [reView, setReView] = useState(false);
+  const [completeStatus, setCompleteStatus] = useState(false);
+  const submitData = () => {
+    if (reView) {
+      ToastAndroid.show('Data Submitted to server', ToastAndroid.SHORT);
+      setCompleteStatus(true);
+    } else {
+      ToastAndroid.show('review and resubmit', ToastAndroid.SHORT);
+      setReView(true);
+    }
+  };
   return (
     <SafeAreaView>
       <ScrollView>
@@ -55,7 +72,7 @@ const FormSubmission: React.FC = ({ route }) => {
             <TextInput
               mode="outlined"
               style={styles.inputContainerStyle}
-              label="Numbaer"
+              label="Number"
               placeholder="Contact number"
               // value={password}
               // onChangeText={onChangePassword}
@@ -355,12 +372,14 @@ const FormSubmission: React.FC = ({ route }) => {
               numberOfLines={2}
             />
           </View>
-          <Button
-            mode="contained"
-            // onPress={submitFactory}
-            style={{ margin: 20 }}>
-            Submit
-          </Button>
+          {!completeStatus ? (
+            <Button
+              mode="contained"
+              onPress={submitData}
+              style={{ margin: 20 }}>
+              {reView ? 'Complete' : 'Submit'}
+            </Button>
+          ) : null}
         </View>
       </ScrollView>
     </SafeAreaView>

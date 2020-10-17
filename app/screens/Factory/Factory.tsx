@@ -2,199 +2,361 @@
  * Show TaskScreen List
  * 1. From Submission
  * 2. Image Submission
+ * 3. Give Camera option here
  */
 
-import React, { useEffect } from 'react';
-import { SafeAreaView, View, ToastAndroid } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { Title, FAB, Button } from 'react-native-paper';
-
+import React, { useEffect, useState } from 'react';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  ToastAndroid,
+  PermissionsAndroid,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  FlatList,
+  ScrollView,
+  Modal,
+} from 'react-native';
+import FastImage from 'react-native-fast-image';
+import { FAB, Button, Title, IconButton, Colors } from 'react-native-paper';
+import { RNCamera } from 'react-native-camera';
+import CameraRoll from '@react-native-community/cameraroll';
 import NavigationService from 'app/navigation/NavigationService';
-import Geolocation from '@react-native-community/geolocation';
-
+import DocumentPicker from 'react-native-document-picker';
 const Factory: React.FC = ({ route }) => {
-  const [state, setState] = React.useState({ open: false });
-  const factory = useSelector((state: any) => state.factoryReducer);
-  let mounted = true;
-  const onStateChange = ({ open }) => setState({ open });
-  const { open } = state;
-  /**
-   * Location Check
-   * Camera Open
-   * Show List
-   */
-  console.log(mounted);
-  useEffect(() => {
-    Geolocation.getCurrentPosition(success, error, options);
-    return function cleanup() {
-      mounted = false;
-    };
-  }, []);
-  const [locationStatus, setLocationStatus] = React.useState(0); // Loading-0 | Ready to go-1 | Error-2 | Not in Range-3
-
-  var options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 10000,
-  };
-  const calcCrow = (lat1: number, lon1: number, lat2: number, lon2: number) => {
-    var R = 6371; // km
-    var dLat = toRad(lat2 - lat1);
-    var dLon = toRad(lon2 - lon1);
-    var lat1 = toRad(lat1);
-    var lat2 = toRad(lat2);
-
-    var a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c;
-    return d;
+  const [open, setOpen] = React.useState(false);
+  const onStateChange = () => setOpen(!open);
+  // let [flash, setFlash] = useState('off')
+  // let [zoom, setZoom] = useState(0)
+  // let [autoFocus, setAutoFocus] = useState('on')
+  // let [depth, setDepth] = useState(0)
+  let [type, setType] = useState('back');
+  // let [permission, setPermission] = useState('undetermined')
+  let [openCamera, setOpenCamera] = useState(false);
+  let [uri, setUri] = useState('');
+  let [selfie, setSelfie] = useState([]);
+  let [pictures, setPictures] = useState([]);
+  const [imageuri, setImageuri] = useState('');
+  const [modalVisibleStatus, setModalVisibleStatus] = useState(false);
+  const showModalFunction = (visible, imageURL) => {
+    //handler to handle the click on image of Grid
+    //and close button on modal
+    setImageuri(imageURL);
+    setModalVisibleStatus(visible);
   };
 
-  // Converts numeric degrees to radians
-  const toRad = (Value: number) => {
-    return (Value * Math.PI) / 180;
-  };
-  const success = (pos) => {
-    if (mounted) {
-      var crd = pos.coords;
-      const distance = calcCrow(
-        Number(crd.latitude),
-        Number(crd.longitude),
-        Number(route.params.geo.lat),
-        Number(route.params.geo.lon),
-      );
-      // console.log(distance);
-      if (distance < 0.5) {
-        setLocationStatus(1);
+  let cameraRef = React.useRef(null);
+  const uploadFiles = async () => {
+    try {
+      const results = await DocumentPicker.pickMultiple({
+        type: [DocumentPicker.types.images],
+      });
+      // setPictures(pictures.concat(results));
+      // console.log(results);
+      results.forEach((result) => setPictures(pictures.concat(result.uri)));
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // User cancelled the picker, exit any dialogs or menus and move on
       } else {
-        setLocationStatus(3);
+        ToastAndroid.show('Unable to pick image', ToastAndroid.SHORT);
       }
     }
-    // console.log('Your current position is:');
-    // console.log(`Latitude : ${crd.latitude}`);
-    // console.log(`Longitude: ${crd.longitude}`);
-    // console.log(`More or less ${crd.accuracy} meters.`);
   };
-
-  const error = (err) => {
-    if (mounted) {
-      setLocationStatus(2);
-      console.log(err);
+  const takePicture = async () => {
+    if (cameraRef) {
+      const options = {
+        quality: 0.5,
+        base64: true,
+        fixOrientation: true,
+        forceUpOrientation: true,
+      };
+      const data = await cameraRef.current.takePictureAsync(options);
+      // console.log(data.uri);
+      setUri(data.uri);
     }
   };
-
+  const removeUri = () => setUri('');
+  const closeCamera = () => setOpenCamera(false);
+  const saveImage = async () => {
+    const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+    await PermissionsAndroid.request(permission);
+    CameraRoll.save(uri, {
+      type: 'auto',
+      album: 'factoryvisit',
+    }).then((data) => {
+      if (type === 'front') {
+        setSelfie(selfie.concat(data));
+        selfie.length === 1
+          ? ToastAndroid.show('Data submitted to server', ToastAndroid.SHORT)
+          : null;
+      } else {
+        setPictures(pictures.concat(data));
+      }
+      setUri('');
+      setOpenCamera(false);
+    });
+  };
   const gotToFormSubmission = () =>
     NavigationService.navigate('Factory Details');
-  // TODO: Remove this on production
-  const test = 1;
-  const LocationStatus = () => {
-    // switch (locationStatus) {
-    switch (test) {
-      case 0:
-        return (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Title>Loading...</Title>
-          </View>
-        );
-      case 1:
-        return (
-          <View style={{ flex: 1, flexDirection: 'column' }}>
-            <Button
-              mode="contained"
-              onPress={gotToFormSubmission}
-              style={{ margin: 20 }}>
-              Submit factory data
-            </Button>
-            <Button
-              icon="camera"
-              mode="contained"
-              onPress={() =>
-                NavigationService.navigate('Camera', {
-                  type: 'back',
-                  redirectTo: 'Factory',
-                })
-              }
-              style={{ margin: 20 }}>
-              Submit photos
-            </Button>
-          </View>
-        );
-      case 2:
-        return (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Title>Unable to determine your location please turn on gps.</Title>
-          </View>
-        );
-      case 3:
-        return (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Title>either your not in rage or your gps is not running</Title>
-          </View>
-        );
-    }
-  };
-
   return (
     <SafeAreaView>
-      <View
-        style={{
-          width: '100%',
-          height: '100%',
-        }}>
-        {LocationStatus()}
-        {locationStatus === 1 ? (
-          <FAB.Group
-            open={open}
-            icon={open ? 'close' : 'plus'}
-            actions={[
-              {
-                label: 'Mark Entry',
-                icon: 'camera',
-                onPress: () =>
-                  NavigationService.navigate('Camera', {
-                    type: 'front',
-                    redirectTo: 'Factory',
-                  }),
-              },
-              {
-                label: 'SOS',
-                icon: 'car-brake-alert',
-                onPress: () => NavigationService.navigate('Report Factory'),
-              },
-              // {
-              //   label: 'Mark Exit',
-              //   icon: 'camera',
-              //   onPress: () => console.log('Pressed add'),
-              // },
-              // {
-              //   label: 'Mark Done',
-              //   icon: 'check',
-              //   onPress: () => console.log('Pressed add'),
-              // },
-            ]}
-            onStateChange={onStateChange}
-          />
-        ) : null}
-      </View>
+      {selfie.length === 2 ? (
+        <Title>Data Submiited to server</Title>
+      ) : (
+        <View
+          style={{
+            width: '100%',
+            height: '100%',
+          }}>
+          {/* Show home page */}
+          {uri === '' && openCamera === false ? (
+            <View style={{ width: '100%', height: '100%' }}>
+              <View style={{ flex: 1, flexDirection: 'column' }}>
+                <Button
+                  mode="contained"
+                  onPress={gotToFormSubmission}
+                  style={{ margin: 20 }}>
+                  Submit factory data
+                </Button>
+                <Button
+                  icon="camera"
+                  mode="contained"
+                  onPress={() => {
+                    setType('back');
+                    setOpenCamera(true);
+                  }}
+                  style={{ margin: 20 }}>
+                  Submit photos
+                </Button>
+                <Button
+                  mode="contained"
+                  onPress={uploadFiles}
+                  style={{ margin: 20 }}>
+                  Insert Images
+                </Button>
+              </View>
+
+              {modalVisibleStatus ? (
+                <Modal
+                  transparent={false}
+                  animationType={'fade'}
+                  visible={modalVisibleStatus}
+                  onRequestClose={() => {
+                    showModalFunction(!modalVisibleStatus, '');
+                  }}>
+                  <View style={styles.modelStyle}>
+                    <FastImage
+                      style={styles.fullImageStyle}
+                      source={{ uri: imageuri }}
+                      resizeMode={FastImage.resizeMode.contain}
+                    />
+                    <IconButton
+                      icon="close"
+                      color={Colors.red500}
+                      size={30}
+                      onPress={() => showModalFunction(!modalVisibleStatus, '')}
+                      style={styles.closeButtonStyle}
+                    />
+                  </View>
+                </Modal>
+              ) : (
+                <View style={styles.container1}>
+                  <FlatList
+                    data={pictures}
+                    renderItem={({ item }) => (
+                      <View style={styles.imageContainerStyle}>
+                        <TouchableOpacity
+                          key={item}
+                          style={{ flex: 1 }}
+                          onPress={() => {
+                            showModalFunction(true, item);
+                          }}>
+                          <FastImage
+                            style={styles.imageStyle}
+                            source={{
+                              uri: item,
+                            }}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    )}
+                    //Setting the number of column
+                    numColumns={2}
+                    keyExtractor={(item, index) => index.toString()}
+                  />
+                </View>
+              )}
+
+              <FAB.Group
+                open={open}
+                icon={open ? 'close' : 'plus'}
+                actions={[
+                  {
+                    label: selfie.length === 1 ? 'Mark Exit' : 'Mark Entry',
+                    icon: 'camera',
+                    onPress: () => {
+                      setType('front');
+                      setOpenCamera(true);
+                    },
+                  },
+                  {
+                    label: 'SOS',
+                    icon: 'car-brake-alert',
+                    onPress: () => NavigationService.navigate('Report Factory'),
+                  },
+                  // {
+                  //   label: 'Mark Exit',
+                  //   icon: 'camera',
+                  //   onPress: () => console.log('Pressed add'),
+                  // },
+                  // {
+                  //   label: 'Mark Done',
+                  //   icon: 'check',
+                  //   onPress: () => console.log('Pressed add'),
+                  // },
+                ]}
+                onStateChange={onStateChange}
+              />
+            </View>
+          ) : null}
+          {/* {{uri === '' && openCamera === false ? } */}
+          {/* Show Camera */}
+          {uri === '' && openCamera === true ? (
+            <RNCamera
+              ref={cameraRef}
+              style={styles.preview}
+              type={type}
+              // flashMode={RNCamera.Constants.FlashMode.on}
+              androidCameraPermissionOptions={{
+                title: 'Permission to use camera',
+                message: 'We need your permission to use your camera',
+                buttonPositive: 'Ok',
+                buttonNegative: 'Cancel',
+              }}
+              androidRecordAudioPermissionOptions={{
+                title: 'Permission to use audio recording',
+                message: 'We need your permission to use your audio',
+                buttonPositive: 'Ok',
+                buttonNegative: 'Cancel',
+              }}>
+              <View
+                style={{
+                  flex: 0,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                }}>
+                <TouchableOpacity onPress={takePicture} style={styles.capture}>
+                  <Title style={{ fontSize: 14 }}> SNAP </Title>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={closeCamera} style={styles.capture}>
+                  <Title style={{ fontSize: 14 }}> Go Back </Title>
+                </TouchableOpacity>
+              </View>
+            </RNCamera>
+          ) : null}
+
+          {/* Show image preview */}
+          {uri ? (
+            <View style={{ position: 'relative' }}>
+              <Image
+                source={{ uri: uri }}
+                style={{ width: '100%', height: '100%' }}
+              />
+              <View
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  width: '100%',
+                }}>
+                <View
+                  style={{
+                    flex: 0,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                  }}>
+                  <TouchableOpacity onPress={removeUri} style={styles.capture}>
+                    <Title style={{ fontSize: 14 }}> Cancel </Title>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={saveImage} style={styles.capture}>
+                    <Title style={{ fontSize: 14 }}> Save </Title>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          ) : null}
+        </View>
+      )}
     </SafeAreaView>
   );
 };
 
 export default Factory;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'black',
+  },
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  capture: {
+    flex: 0,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    padding: 15,
+    paddingHorizontal: 20,
+    alignSelf: 'center',
+    margin: 20,
+  },
+  cancel: {
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: 'transparent',
+    fontWeight: '600',
+    fontSize: 17,
+  },
+  container1: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+  },
+  titleStyle: {
+    padding: 16,
+    fontSize: 20,
+    color: 'white',
+    backgroundColor: 'green',
+  },
+  imageContainerStyle: {
+    flex: 1,
+    flexDirection: 'column',
+    margin: 1,
+    maxWidth: '50%',
+  },
+  imageStyle: {
+    height: 120,
+    width: '100%',
+  },
+  fullImageStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    width: '98%',
+    resizeMode: 'contain',
+  },
+  modelStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  closeButtonStyle: {
+    top: 40,
+    right: 5,
+    position: 'absolute',
+  },
+});
