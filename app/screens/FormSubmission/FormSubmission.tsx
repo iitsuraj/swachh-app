@@ -306,7 +306,7 @@ const FormSubmission: React.FC = ({ route }) => {
           </View>
           <View>
             <Title style={styles.inputContainerTitle}>
-              Flowmeter installed at ETP outlent
+              Flowmeter installed at ETP outlet
             </Title>
             <RadioButton.Group
               onValueChange={(value) => setFlowmeterEtpOutletStatus(value)}

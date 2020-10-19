@@ -25,7 +25,38 @@ import { RNCamera } from 'react-native-camera';
 import CameraRoll from '@react-native-community/cameraroll';
 import NavigationService from 'app/navigation/NavigationService';
 import DocumentPicker from 'react-native-document-picker';
+import Geolocation from '@react-native-community/geolocation';
 const Factory: React.FC = ({ route }) => {
+  let mounted = true;
+  var options = {
+    enableHighAccuracy: true,
+    timeout: 10000,
+    maximumAge: 10000,
+  };
+  // useEffect(() => {
+
+  //   return function cleanup() {
+  //     mounted = false;
+  //   };
+  // }, []);
+  const [crd, setCrd] = useState([0, 0]);
+  const [locationError, setLocationError] = useState(false);
+  const success = (pos) => {
+    if (mounted) {
+      var crd = pos.coords;
+      var lat = crd.latitude;
+      var log = crd.longitude;
+      // console.log(lat, log);
+      setCrd([lat, log]);
+    }
+  };
+  const error = (err) => {
+    if (mounted) {
+      // console.log(err);
+      setLocationError(true);
+    }
+  };
+
   const [open, setOpen] = React.useState(false);
   const onStateChange = () => setOpen(!open);
   // let [flash, setFlash] = useState('off')
@@ -55,7 +86,11 @@ const Factory: React.FC = ({ route }) => {
       });
       // setPictures(pictures.concat(results));
       // console.log(results);
-      results.forEach((result) => setPictures(pictures.concat(result.uri)));
+      let addPictures = [];
+      results.forEach((result) => addPictures.push(result.uri));
+      // console.log(addPictures);
+      setPictures(pictures.concat(addPictures));
+      // results.forEach((result) => setPictures(pictures.concat(result.uri)));
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         // User cancelled the picker, exit any dialogs or menus and move on
@@ -84,10 +119,16 @@ const Factory: React.FC = ({ route }) => {
     await PermissionsAndroid.request(permission);
     CameraRoll.save(uri, {
       type: 'auto',
-      album: 'factoryvisit',
+      album: 'camera',
     }).then((data) => {
       if (type === 'front') {
         setSelfie(selfie.concat(data));
+        if (selfie.length === 0) {
+          if (mounted) {
+            setCrd(['loading', 'loading']);
+            Geolocation.getCurrentPosition(success, error, options);
+          }
+        }
         selfie.length === 1
           ? ToastAndroid.show('Data submitted to server', ToastAndroid.SHORT)
           : null;
@@ -100,6 +141,11 @@ const Factory: React.FC = ({ route }) => {
   };
   const gotToFormSubmission = () =>
     NavigationService.navigate('Factory Details');
+  useEffect(() => {
+    return () => {
+      mounted = false;
+    };
+  }, []);
   return (
     <SafeAreaView>
       {selfie.length === 2 ? (
@@ -114,6 +160,14 @@ const Factory: React.FC = ({ route }) => {
           {uri === '' && openCamera === false ? (
             <View style={{ width: '100%', height: '100%' }}>
               <View style={{ flex: 1, flexDirection: 'column' }}>
+                <View style={{ marginLeft: 20 }}>
+                  <Title>Lat - {crd[0]}</Title>
+                  <Title>Long - {crd[1]}</Title>
+                  {locationError ? (
+                    <Title>Unable to get your location</Title>
+                  ) : null}
+                </View>
+
                 <Button
                   mode="contained"
                   onPress={gotToFormSubmission}
