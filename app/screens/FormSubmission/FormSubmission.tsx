@@ -29,16 +29,23 @@ const FormSubmission: React.FC = ({ route }) => {
   const [flowmeterBorewellStatus, setFlowmeterBorewellStatus] = React.useState(
     'installed-working',
   );
+  const [noc, setNoc] = React.useState('Valid');
+  // setOnlineConnectivity
+  const [onlineConnectivity, setOnlineConnectivity] = React.useState(
+    'Connected',
+  );
   const [flowmeterEtpInletStatus, setFlowmeterEtpInletStatus] = React.useState(
     'installed-working',
   );
   const [ocemsStatus, setOcemsStatus] = React.useState('installed-working');
+  const [drain, setDrain] = React.useState('Drain');
   const [
     flowmeterEtpOutletStatus,
     setFlowmeterEtpOutletStatus,
   ] = React.useState('installed-working');
   const [reView, setReView] = useState(false);
   const [completeStatus, setCompleteStatus] = useState(false);
+  const [energyMeter, setEnergyMeter] = useState('Yes');
   const submitData = () => {
     if (reView) {
       ToastAndroid.show('Data Submitted to server', ToastAndroid.SHORT);
@@ -179,6 +186,121 @@ const FormSubmission: React.FC = ({ route }) => {
           </View>
           <View>
             <Title style={styles.inputContainerTitle}>
+              Installed Production Capacity (TCD)
+            </Title>
+            <TextInput
+              style={styles.inputContainerStyle}
+              placeholder={'Installed Production Capacity (TCD)'}
+              label={'Installed Production'}
+              mode={'outlined'}
+            />
+          </View>
+          <View>
+            <Title style={styles.inputContainerTitle}>
+              Installed Production Capacity (TPD)
+            </Title>
+            <TextInput
+              style={styles.inputContainerStyle}
+              placeholder={'Installed Production Capacity (TPD)'}
+              label={'Installed Production'}
+              mode={'outlined'}
+            />
+          </View>
+          <View>
+            <Title style={styles.inputContainerTitle}>
+              Installed Production Capacity (KPD)
+            </Title>
+            <TextInput
+              style={styles.inputContainerStyle}
+              placeholder={'Installed Production Capacity (KPD)'}
+              label={'Installed Production'}
+              mode={'outlined'}
+            />
+          </View>
+          <View>
+            <Title style={styles.inputContainerTitle}>
+              Present production (of previous day) (TCD)
+            </Title>
+            <TextInput
+              style={styles.inputContainerStyle}
+              placeholder={'Present production (of previous day) (TCD)'}
+              label={'Present production'}
+              mode={'outlined'}
+            />
+          </View>
+          <View>
+            <Title style={styles.inputContainerTitle}>
+              Present production (of previous day) (TPD)
+            </Title>
+            <TextInput
+              style={styles.inputContainerStyle}
+              placeholder={'Present production (of previous day) (TPD)'}
+              label={'Present production'}
+              mode={'outlined'}
+            />
+          </View>
+          <View>
+            <Title style={styles.inputContainerTitle}>
+              Present production (of previous day) (KPD)
+            </Title>
+            <TextInput
+              style={styles.inputContainerStyle}
+              placeholder={'Present production (of previous day) (KPD)'}
+              label={'Present production'}
+              mode={'outlined'}
+            />
+          </View>
+          <View>
+            <Title style={styles.inputContainerTitle}>
+              Fresh water withdrawal (Previous day based on flow meter) (KLD)
+            </Title>
+            <TextInput
+              style={styles.inputContainerStyle}
+              placeholder={'Fresh water withdrawal'}
+              label={'Fresh water withdrawal'}
+              mode={'outlined'}
+            />
+          </View>
+          <View>
+            <Title style={styles.inputContainerTitle}>
+              Online connectivity status
+            </Title>
+            <RadioButton.Group
+              onValueChange={(value) => setOnlineConnectivity(value)}
+              value={onlineConnectivity}>
+              <RadioButton.Item label="Connected" value="Connected" />
+              <RadioButton.Item label="Not connected" value="Not connected" />
+            </RadioButton.Group>
+          </View>
+          <View>
+            <Title style={styles.inputContainerTitle}>
+              Status of NOC from CGWA
+            </Title>
+            <RadioButton.Group
+              onValueChange={(value) => setNoc(value)}
+              value={noc}>
+              <RadioButton.Item label="Valid" value="Valid" />
+              <RadioButton.Item label="Not valid" value="Not valid" />
+            </RadioButton.Group>
+          </View>
+          <View>
+            <Title style={styles.inputContainerTitle}>
+              Mode to reach river
+            </Title>
+            <RadioButton.Group
+              onValueChange={(value) => setDrain(value)}
+              value={drain}>
+              <RadioButton.Item label="Drain" value="Drain" />
+              <RadioButton.Item label="Tributary" value="Tributary" />
+              <RadioButton.Item
+                label="Directly to river Ganga"
+                value="Directly to river Ganga"
+              />
+            </RadioButton.Group>
+          </View>
+
+          <View>
+            <Title style={styles.inputContainerTitle}>
               Consent Status Air consent
             </Title>
             <RadioButton.Group
@@ -304,6 +426,7 @@ const FormSubmission: React.FC = ({ route }) => {
               />
             ) : null}
           </View>
+
           <View>
             <Title style={styles.inputContainerTitle}>
               Flowmeter installed at ETP outlet
@@ -334,6 +457,28 @@ const FormSubmission: React.FC = ({ route }) => {
             ) : null}
           </View>
           <View>
+            <Title style={styles.inputContainerTitle}>
+              Flow meter at ETP outlet Current day flow rate (m3/hr)
+            </Title>
+            <TextInput
+              style={styles.inputContainerStyle}
+              placeholder={'Fresh water withdrawal'}
+              label={'Fresh water withdrawal'}
+              mode={'outlined'}
+            />
+          </View>
+          <View>
+            <Title style={styles.inputContainerTitle}>
+              Flow meter at ETP outlet Previous day flow (KLD)
+            </Title>
+            <TextInput
+              style={styles.inputContainerStyle}
+              placeholder={'Fresh water withdrawal'}
+              label={'Fresh water withdrawal'}
+              mode={'outlined'}
+            />
+          </View>
+          <View>
             <Title style={styles.inputContainerTitle}>OCEMS status</Title>
             <RadioButton.Group
               onValueChange={(value) => setOcemsStatus(value)}
@@ -359,6 +504,28 @@ const FormSubmission: React.FC = ({ route }) => {
                 // mode={'outlined'}
               />
             ) : null}
+          </View>
+          <View>
+            <Title style={styles.inputContainerTitle}>
+              Separate Energy meter for ETP
+            </Title>
+            <RadioButton.Group
+              onValueChange={(value) => setEnergyMeter(value)}
+              value={energyMeter}>
+              <RadioButton.Item label={'Yes'} value="Yes" />
+              <RadioButton.Item label={'No'} value="No" />
+            </RadioButton.Group>
+          </View>
+          <View>
+            <Title style={styles.inputContainerTitle}>
+              Separate Energy meter for ETP Reading
+            </Title>
+            <TextInput
+              style={styles.inputContainerStyle}
+              placeholder={'Separate Energy meter for ETP Reading'}
+              label={'Separate Energy meter for ETP Reading'}
+              mode={'outlined'}
+            />
           </View>
           <View>
             <Title style={styles.inputContainerTitle}>
