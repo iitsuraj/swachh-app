@@ -135,7 +135,435 @@ const FormSubmission: React.FC = ({ route }) => {
                   <RadioButton.Item label="Others" value="others" />
                 </RadioButton.Group>
               </View>
-            ) : null}
+            ) : (
+              <View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    ETP operational status
+                  </Title>
+                  <RadioButton.Group
+                    onValueChange={(value) => setEtpStatus(value)}
+                    value={etpStatus}>
+                    <RadioButton.Item label="Operational" value="operational" />
+                    <RadioButton.Item
+                      label="Non Operational"
+                      value="non-operational"
+                    />
+                    <RadioButton.Item label="Others" value="others" />
+                  </RadioButton.Group>
+                  {etpStatus === 'others' ? (
+                    <TextInput
+                      style={styles.inputContainerStyle}
+                      placeholder="Reason...."
+                      underlineColorAndroid="transparent"
+                      multiline={true}
+                      numberOfLines={2}
+                      // mode={'outlined'}
+                    />
+                  ) : null}
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Consented Production capacity
+                  </Title>
+                  <TextInput
+                    style={styles.inputContainerStyle}
+                    placeholder={'Consented Production capacity'}
+                    label={'Capacity'}
+                    mode={'outlined'}
+                  />
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Installed Production Capacity (TCD)
+                  </Title>
+                  <TextInput
+                    style={styles.inputContainerStyle}
+                    placeholder={'Installed Production Capacity (TCD)'}
+                    label={'Installed Production'}
+                    mode={'outlined'}
+                  />
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Installed Production Capacity (TPD)
+                  </Title>
+                  <TextInput
+                    style={styles.inputContainerStyle}
+                    placeholder={'Installed Production Capacity (TPD)'}
+                    label={'Installed Production'}
+                    mode={'outlined'}
+                  />
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Installed Production Capacity (KPD)
+                  </Title>
+                  <TextInput
+                    style={styles.inputContainerStyle}
+                    placeholder={'Installed Production Capacity (KPD)'}
+                    label={'Installed Production'}
+                    mode={'outlined'}
+                  />
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Present production (of previous day) (TCD)
+                  </Title>
+                  <TextInput
+                    style={styles.inputContainerStyle}
+                    placeholder={'Present production (of previous day) (TCD)'}
+                    label={'Present production'}
+                    mode={'outlined'}
+                  />
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Present production (of previous day) (TPD)
+                  </Title>
+                  <TextInput
+                    style={styles.inputContainerStyle}
+                    placeholder={'Present production (of previous day) (TPD)'}
+                    label={'Present production'}
+                    mode={'outlined'}
+                  />
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Present production (of previous day) (KPD)
+                  </Title>
+                  <TextInput
+                    style={styles.inputContainerStyle}
+                    placeholder={'Present production (of previous day) (KPD)'}
+                    label={'Present production'}
+                    mode={'outlined'}
+                  />
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Fresh water withdrawal (Previous day based on flow meter)
+                    (KLD)
+                  </Title>
+                  <TextInput
+                    style={styles.inputContainerStyle}
+                    placeholder={'Fresh water withdrawal'}
+                    label={'Fresh water withdrawal'}
+                    mode={'outlined'}
+                  />
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Online connectivity status
+                  </Title>
+                  <RadioButton.Group
+                    onValueChange={(value) => setOnlineConnectivity(value)}
+                    value={onlineConnectivity}>
+                    <RadioButton.Item label="Connected" value="Connected" />
+                    <RadioButton.Item
+                      label="Not connected"
+                      value="Not connected"
+                    />
+                  </RadioButton.Group>
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Status of NOC from CGWA
+                  </Title>
+                  <RadioButton.Group
+                    onValueChange={(value) => setNoc(value)}
+                    value={noc}>
+                    <RadioButton.Item label="Valid" value="Valid" />
+                    <RadioButton.Item label="Not valid" value="Not valid" />
+                  </RadioButton.Group>
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Mode to reach river
+                  </Title>
+                  <RadioButton.Group
+                    onValueChange={(value) => setDrain(value)}
+                    value={drain}>
+                    <RadioButton.Item label="Drain" value="Drain" />
+                    <RadioButton.Item label="Tributary" value="Tributary" />
+                    <RadioButton.Item
+                      label="Directly to river Ganga"
+                      value="Directly to river Ganga"
+                    />
+                  </RadioButton.Group>
+                </View>
+
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Consent Status Air consent
+                  </Title>
+                  <RadioButton.Group
+                    onValueChange={(value) => setAirConset(value)}
+                    value={airConsent}>
+                    <RadioButton.Item label="Valid" value="valid" />
+                    <RadioButton.Item label="Invalid" value="invalid" />
+                    <RadioButton.Item label="Applied" value="applied" />
+                    <RadioButton.Item
+                      label="Not Provided"
+                      value="not-provided"
+                    />
+                  </RadioButton.Group>
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Water consent
+                  </Title>
+                  <RadioButton.Group
+                    onValueChange={(value) => setWaterConset(value)}
+                    value={waterConsent}>
+                    <RadioButton.Item label="Valid" value="valid" />
+                    <RadioButton.Item label="Invalid" value="invalid" />
+                    <RadioButton.Item label="Applied" value="applied" />
+                    <RadioButton.Item
+                      label="Not Provided"
+                      value="not-provided"
+                    />
+                  </RadioButton.Group>
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Hazardous consent
+                  </Title>
+                  <RadioButton.Group
+                    onValueChange={(value) => setHazardousConset(value)}
+                    value={hazardousConsent}>
+                    <RadioButton.Item label="Valid" value="valid" />
+                    <RadioButton.Item label="Invalid" value="invalid" />
+                    <RadioButton.Item label="Applied" value="applied" />
+                    <RadioButton.Item
+                      label="Not Provided"
+                      value="not-provided"
+                    />
+                  </RadioButton.Group>
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>CGWA consent</Title>
+                  <RadioButton.Group
+                    onValueChange={(value) => setCgwaConset(value)}
+                    value={cgwaConsent}>
+                    <RadioButton.Item label="Valid" value="valid" />
+                    <RadioButton.Item label="Invalid" value="invalid" />
+                    <RadioButton.Item label="Applied" value="applied" />
+                    <RadioButton.Item
+                      label="Not Provided"
+                      value="not-provided"
+                    />
+                  </RadioButton.Group>
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Source of fresh water consumption
+                  </Title>
+                  <RadioButton.Group
+                    onValueChange={(value) => setwaterConsumption(value)}
+                    value={waterConsumption}>
+                    <RadioButton.Item label="Borewell" value="borewell" />
+                    <RadioButton.Item label="TubeWell" value="tubewell" />
+                    <RadioButton.Item label="River" value="river" />
+                    <RadioButton.Item label="Other" value="other" />
+                  </RadioButton.Group>
+                  {waterConsumption === 'other' ? (
+                    <TextInput
+                      style={styles.inputContainerStyle}
+                      placeholder="Reason...."
+                      underlineColorAndroid="transparent"
+                      multiline={true}
+                      numberOfLines={2}
+                      // mode={'outlined'}
+                    />
+                  ) : null}
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Flowmeter installed at Borewell
+                  </Title>
+                  <RadioButton.Group
+                    onValueChange={(value) => setFlowmeterBorewellStatus(value)}
+                    value={flowmeterBorewellStatus}>
+                    <RadioButton.Item
+                      label={'Installed & Working'}
+                      value="installed-working"
+                    />
+                    <RadioButton.Item
+                      label={'Installed & not Working'}
+                      value="installed-not-working"
+                    />
+                    <RadioButton.Item
+                      label={'Not Installed'}
+                      value="not-installed"
+                    />
+                    <RadioButton.Item label="Other" value="other" />
+                  </RadioButton.Group>
+                  {flowmeterBorewellStatus === 'other' ? (
+                    <TextInput
+                      style={styles.inputContainerStyle}
+                      placeholder="Reason...."
+                      underlineColorAndroid="transparent"
+                      multiline={true}
+                      numberOfLines={2}
+                      // mode={'outlined'}
+                    />
+                  ) : null}
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Flowmeter installed at ETP inlet
+                  </Title>
+                  <RadioButton.Group
+                    onValueChange={(value) => setFlowmeterEtpInletStatus(value)}
+                    value={flowmeterEtpInletStatus}>
+                    <RadioButton.Item
+                      label={'Installed & Working'}
+                      value="installed-working"
+                    />
+                    <RadioButton.Item
+                      label={'Installed & not Working'}
+                      value="installed-not-working"
+                    />
+                    <RadioButton.Item
+                      label={'Not Installed'}
+                      value="not-installed"
+                    />
+                    <RadioButton.Item label="Other" value="other" />
+                  </RadioButton.Group>
+                  {flowmeterEtpInletStatus === 'other' ? (
+                    <TextInput
+                      style={styles.inputContainerStyle}
+                      placeholder="Reason...."
+                      underlineColorAndroid="transparent"
+                      multiline={true}
+                      numberOfLines={2}
+                      // mode={'outlined'}
+                    />
+                  ) : null}
+                </View>
+
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Flowmeter installed at ETP outlet
+                  </Title>
+                  <RadioButton.Group
+                    onValueChange={(value) =>
+                      setFlowmeterEtpOutletStatus(value)
+                    }
+                    value={flowmeterEtpOutletStatus}>
+                    <RadioButton.Item
+                      label={'Installed & Working'}
+                      value="installed-working"
+                    />
+                    <RadioButton.Item
+                      label={'Installed & not Working'}
+                      value="installed-not-working"
+                    />
+                    <RadioButton.Item
+                      label={'Not Installed'}
+                      value="not-installed"
+                    />
+                    <RadioButton.Item label="Other" value="other" />
+                  </RadioButton.Group>
+                  {flowmeterEtpOutletStatus === 'other' ? (
+                    <TextInput
+                      style={styles.inputContainerStyle}
+                      placeholder="Reason...."
+                      underlineColorAndroid="transparent"
+                      multiline={true}
+                      numberOfLines={2}
+                      // mode={'outlined'}
+                    />
+                  ) : null}
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Flow meter at ETP outlet Current day flow rate (m3/hr)
+                  </Title>
+                  <TextInput
+                    style={styles.inputContainerStyle}
+                    placeholder={'Flow meter at ETP outlet Current day'}
+                    label={'Flow meter at ETP outlet Current day'}
+                    mode={'outlined'}
+                  />
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Flow meter at ETP outlet Previous day flow (KLD)
+                  </Title>
+                  <TextInput
+                    style={styles.inputContainerStyle}
+                    placeholder={'Flow meter at ETP outlet Current day'}
+                    label={'Flow meter at ETP outlet Current day'}
+                    mode={'outlined'}
+                  />
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>OCEMS status</Title>
+                  <RadioButton.Group
+                    onValueChange={(value) => setOcemsStatus(value)}
+                    value={ocemsStatus}>
+                    <RadioButton.Item
+                      label={'Installed & Working'}
+                      value="installed-working"
+                    />
+                    <RadioButton.Item
+                      label={'Installed & not Working'}
+                      value="installed-not-working"
+                    />
+                    <RadioButton.Item
+                      label={'Not Installed'}
+                      value="not-installed"
+                    />
+                    <RadioButton.Item label="Other" value="other" />
+                  </RadioButton.Group>
+                  {ocemsStatus === 'other' ? (
+                    <TextInput
+                      style={styles.inputContainerStyle}
+                      placeholder="Reason...."
+                      underlineColorAndroid="transparent"
+                      multiline={true}
+                      numberOfLines={2}
+                      // mode={'outlined'}
+                    />
+                  ) : null}
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Separate Energy meter for ETP
+                  </Title>
+                  <RadioButton.Group
+                    onValueChange={(value) => setEnergyMeter(value)}
+                    value={energyMeter}>
+                    <RadioButton.Item label={'Yes'} value="Yes" />
+                    <RadioButton.Item label={'No'} value="No" />
+                  </RadioButton.Group>
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Separate Energy meter for ETP Reading
+                  </Title>
+                  <TextInput
+                    style={styles.inputContainerStyle}
+                    placeholder={'Separate Energy meter for ETP Reading'}
+                    label={'Separate Energy meter for ETP Reading'}
+                    mode={'outlined'}
+                  />
+                </View>
+                <View>
+                  <Title style={styles.inputContainerTitle}>
+                    Specific Observations
+                  </Title>
+                  <TextInput
+                    style={styles.inputContainerStyle}
+                    placeholder="Reason...."
+                    underlineColorAndroid="transparent"
+                    multiline={true}
+                    numberOfLines={2}
+                  />
+                </View>
+              </View>
+            )}
             {nonOperationalStatus === 'others' &&
             unitStatus === 'non-operational' ? (
               <TextInput
@@ -147,397 +575,6 @@ const FormSubmission: React.FC = ({ route }) => {
                 // mode={'outlined'}
               />
             ) : null}
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              ETP operational status
-            </Title>
-            <RadioButton.Group
-              onValueChange={(value) => setEtpStatus(value)}
-              value={etpStatus}>
-              <RadioButton.Item label="Operational" value="operational" />
-              <RadioButton.Item
-                label="Non Operational"
-                value="non-operational"
-              />
-              <RadioButton.Item label="Others" value="others" />
-            </RadioButton.Group>
-            {etpStatus === 'others' ? (
-              <TextInput
-                style={styles.inputContainerStyle}
-                placeholder="Reason...."
-                underlineColorAndroid="transparent"
-                multiline={true}
-                numberOfLines={2}
-                // mode={'outlined'}
-              />
-            ) : null}
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Consented Production capacity
-            </Title>
-            <TextInput
-              style={styles.inputContainerStyle}
-              placeholder={'Consented Production capacity'}
-              label={'Capacity'}
-              mode={'outlined'}
-            />
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Installed Production Capacity (TCD)
-            </Title>
-            <TextInput
-              style={styles.inputContainerStyle}
-              placeholder={'Installed Production Capacity (TCD)'}
-              label={'Installed Production'}
-              mode={'outlined'}
-            />
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Installed Production Capacity (TPD)
-            </Title>
-            <TextInput
-              style={styles.inputContainerStyle}
-              placeholder={'Installed Production Capacity (TPD)'}
-              label={'Installed Production'}
-              mode={'outlined'}
-            />
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Installed Production Capacity (KPD)
-            </Title>
-            <TextInput
-              style={styles.inputContainerStyle}
-              placeholder={'Installed Production Capacity (KPD)'}
-              label={'Installed Production'}
-              mode={'outlined'}
-            />
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Present production (of previous day) (TCD)
-            </Title>
-            <TextInput
-              style={styles.inputContainerStyle}
-              placeholder={'Present production (of previous day) (TCD)'}
-              label={'Present production'}
-              mode={'outlined'}
-            />
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Present production (of previous day) (TPD)
-            </Title>
-            <TextInput
-              style={styles.inputContainerStyle}
-              placeholder={'Present production (of previous day) (TPD)'}
-              label={'Present production'}
-              mode={'outlined'}
-            />
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Present production (of previous day) (KPD)
-            </Title>
-            <TextInput
-              style={styles.inputContainerStyle}
-              placeholder={'Present production (of previous day) (KPD)'}
-              label={'Present production'}
-              mode={'outlined'}
-            />
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Fresh water withdrawal (Previous day based on flow meter) (KLD)
-            </Title>
-            <TextInput
-              style={styles.inputContainerStyle}
-              placeholder={'Fresh water withdrawal'}
-              label={'Fresh water withdrawal'}
-              mode={'outlined'}
-            />
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Online connectivity status
-            </Title>
-            <RadioButton.Group
-              onValueChange={(value) => setOnlineConnectivity(value)}
-              value={onlineConnectivity}>
-              <RadioButton.Item label="Connected" value="Connected" />
-              <RadioButton.Item label="Not connected" value="Not connected" />
-            </RadioButton.Group>
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Status of NOC from CGWA
-            </Title>
-            <RadioButton.Group
-              onValueChange={(value) => setNoc(value)}
-              value={noc}>
-              <RadioButton.Item label="Valid" value="Valid" />
-              <RadioButton.Item label="Not valid" value="Not valid" />
-            </RadioButton.Group>
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Mode to reach river
-            </Title>
-            <RadioButton.Group
-              onValueChange={(value) => setDrain(value)}
-              value={drain}>
-              <RadioButton.Item label="Drain" value="Drain" />
-              <RadioButton.Item label="Tributary" value="Tributary" />
-              <RadioButton.Item
-                label="Directly to river Ganga"
-                value="Directly to river Ganga"
-              />
-            </RadioButton.Group>
-          </View>
-
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Consent Status Air consent
-            </Title>
-            <RadioButton.Group
-              onValueChange={(value) => setAirConset(value)}
-              value={airConsent}>
-              <RadioButton.Item label="Valid" value="valid" />
-              <RadioButton.Item label="Invalid" value="invalid" />
-              <RadioButton.Item label="Applied" value="applied" />
-              <RadioButton.Item label="Not Provided" value="not-provided" />
-            </RadioButton.Group>
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>Water consent</Title>
-            <RadioButton.Group
-              onValueChange={(value) => setWaterConset(value)}
-              value={waterConsent}>
-              <RadioButton.Item label="Valid" value="valid" />
-              <RadioButton.Item label="Invalid" value="invalid" />
-              <RadioButton.Item label="Applied" value="applied" />
-              <RadioButton.Item label="Not Provided" value="not-provided" />
-            </RadioButton.Group>
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>Hazardous consent</Title>
-            <RadioButton.Group
-              onValueChange={(value) => setHazardousConset(value)}
-              value={hazardousConsent}>
-              <RadioButton.Item label="Valid" value="valid" />
-              <RadioButton.Item label="Invalid" value="invalid" />
-              <RadioButton.Item label="Applied" value="applied" />
-              <RadioButton.Item label="Not Provided" value="not-provided" />
-            </RadioButton.Group>
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>CGWA consent</Title>
-            <RadioButton.Group
-              onValueChange={(value) => setCgwaConset(value)}
-              value={cgwaConsent}>
-              <RadioButton.Item label="Valid" value="valid" />
-              <RadioButton.Item label="Invalid" value="invalid" />
-              <RadioButton.Item label="Applied" value="applied" />
-              <RadioButton.Item label="Not Provided" value="not-provided" />
-            </RadioButton.Group>
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Source of fresh water consumption
-            </Title>
-            <RadioButton.Group
-              onValueChange={(value) => setwaterConsumption(value)}
-              value={waterConsumption}>
-              <RadioButton.Item label="Borewell" value="borewell" />
-              <RadioButton.Item label="TubeWell" value="tubewell" />
-              <RadioButton.Item label="River" value="river" />
-              <RadioButton.Item label="Other" value="other" />
-            </RadioButton.Group>
-            {waterConsumption === 'other' ? (
-              <TextInput
-                style={styles.inputContainerStyle}
-                placeholder="Reason...."
-                underlineColorAndroid="transparent"
-                multiline={true}
-                numberOfLines={2}
-                // mode={'outlined'}
-              />
-            ) : null}
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Flowmeter installed at Borewell
-            </Title>
-            <RadioButton.Group
-              onValueChange={(value) => setFlowmeterBorewellStatus(value)}
-              value={flowmeterBorewellStatus}>
-              <RadioButton.Item
-                label={'Installed & Working'}
-                value="installed-working"
-              />
-              <RadioButton.Item
-                label={'Installed & not Working'}
-                value="installed-not-working"
-              />
-              <RadioButton.Item label={'Not Installed'} value="not-installed" />
-              <RadioButton.Item label="Other" value="other" />
-            </RadioButton.Group>
-            {flowmeterBorewellStatus === 'other' ? (
-              <TextInput
-                style={styles.inputContainerStyle}
-                placeholder="Reason...."
-                underlineColorAndroid="transparent"
-                multiline={true}
-                numberOfLines={2}
-                // mode={'outlined'}
-              />
-            ) : null}
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Flowmeter installed at ETP inlet
-            </Title>
-            <RadioButton.Group
-              onValueChange={(value) => setFlowmeterEtpInletStatus(value)}
-              value={flowmeterEtpInletStatus}>
-              <RadioButton.Item
-                label={'Installed & Working'}
-                value="installed-working"
-              />
-              <RadioButton.Item
-                label={'Installed & not Working'}
-                value="installed-not-working"
-              />
-              <RadioButton.Item label={'Not Installed'} value="not-installed" />
-              <RadioButton.Item label="Other" value="other" />
-            </RadioButton.Group>
-            {flowmeterEtpInletStatus === 'other' ? (
-              <TextInput
-                style={styles.inputContainerStyle}
-                placeholder="Reason...."
-                underlineColorAndroid="transparent"
-                multiline={true}
-                numberOfLines={2}
-                // mode={'outlined'}
-              />
-            ) : null}
-          </View>
-
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Flowmeter installed at ETP outlet
-            </Title>
-            <RadioButton.Group
-              onValueChange={(value) => setFlowmeterEtpOutletStatus(value)}
-              value={flowmeterEtpOutletStatus}>
-              <RadioButton.Item
-                label={'Installed & Working'}
-                value="installed-working"
-              />
-              <RadioButton.Item
-                label={'Installed & not Working'}
-                value="installed-not-working"
-              />
-              <RadioButton.Item label={'Not Installed'} value="not-installed" />
-              <RadioButton.Item label="Other" value="other" />
-            </RadioButton.Group>
-            {flowmeterEtpOutletStatus === 'other' ? (
-              <TextInput
-                style={styles.inputContainerStyle}
-                placeholder="Reason...."
-                underlineColorAndroid="transparent"
-                multiline={true}
-                numberOfLines={2}
-                // mode={'outlined'}
-              />
-            ) : null}
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Flow meter at ETP outlet Current day flow rate (m3/hr)
-            </Title>
-            <TextInput
-              style={styles.inputContainerStyle}
-              placeholder={'Fresh water withdrawal'}
-              label={'Fresh water withdrawal'}
-              mode={'outlined'}
-            />
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Flow meter at ETP outlet Previous day flow (KLD)
-            </Title>
-            <TextInput
-              style={styles.inputContainerStyle}
-              placeholder={'Fresh water withdrawal'}
-              label={'Fresh water withdrawal'}
-              mode={'outlined'}
-            />
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>OCEMS status</Title>
-            <RadioButton.Group
-              onValueChange={(value) => setOcemsStatus(value)}
-              value={ocemsStatus}>
-              <RadioButton.Item
-                label={'Installed & Working'}
-                value="installed-working"
-              />
-              <RadioButton.Item
-                label={'Installed & not Working'}
-                value="installed-not-working"
-              />
-              <RadioButton.Item label={'Not Installed'} value="not-installed" />
-              <RadioButton.Item label="Other" value="other" />
-            </RadioButton.Group>
-            {ocemsStatus === 'other' ? (
-              <TextInput
-                style={styles.inputContainerStyle}
-                placeholder="Reason...."
-                underlineColorAndroid="transparent"
-                multiline={true}
-                numberOfLines={2}
-                // mode={'outlined'}
-              />
-            ) : null}
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Separate Energy meter for ETP
-            </Title>
-            <RadioButton.Group
-              onValueChange={(value) => setEnergyMeter(value)}
-              value={energyMeter}>
-              <RadioButton.Item label={'Yes'} value="Yes" />
-              <RadioButton.Item label={'No'} value="No" />
-            </RadioButton.Group>
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Separate Energy meter for ETP Reading
-            </Title>
-            <TextInput
-              style={styles.inputContainerStyle}
-              placeholder={'Separate Energy meter for ETP Reading'}
-              label={'Separate Energy meter for ETP Reading'}
-              mode={'outlined'}
-            />
-          </View>
-          <View>
-            <Title style={styles.inputContainerTitle}>
-              Specific Observations
-            </Title>
-            <TextInput
-              style={styles.inputContainerStyle}
-              placeholder="Reason...."
-              underlineColorAndroid="transparent"
-              multiline={true}
-              numberOfLines={2}
-            />
           </View>
           {!completeStatus ? (
             <Button

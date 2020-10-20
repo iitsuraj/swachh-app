@@ -9,6 +9,8 @@ const SOS: React.FC = () => {
       <View style={{ width: '100%', height: '100%' }}>
         <RadioButton.Group onValueChange={(value) => setSos(value)} value={sos}>
           <RadioButton.Item label={'Factory Closed'} value="factory-closed" />
+          <RadioButton.Item label={'Denied Entry'} value="denied-entry" />
+          <RadioButton.Item label={'Bypass'} value="bypass" />
           <RadioButton.Item label="Other" value="other" />
         </RadioButton.Group>
         {sos === 'other' ? (
