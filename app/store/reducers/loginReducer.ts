@@ -11,7 +11,7 @@ import {
 } from 'app/models/actions/login';
 const initialState: ILoginState = {
   isLoggedIn: false,
-  id: 0,
+  token: '',
   username: '',
   password: '',
 };
@@ -30,7 +30,7 @@ export const loginReducer = createReducer(initialState, {
   [types.LOGIN_RESPONSE](state: ILoginState, action: ILoginResponseState) {
     return {
       ...state,
-      id: action.response.id,
+      token: action.response.token,
       isLoggedIn: true,
     };
   },

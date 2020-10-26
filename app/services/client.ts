@@ -1,9 +1,7 @@
 import axios from 'axios';
-
 const apiClient = axios.create({
-  baseURL: '/react-dev',
+  baseURL: 'http://192.168.0.114:9090',
   responseType: 'json',
   withCredentials: true,
 });
-
 export { apiClient };

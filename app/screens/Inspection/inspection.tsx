@@ -29,15 +29,17 @@ import Geolocation from '@react-native-community/geolocation';
 import NavigationService from 'app/navigation/NavigationService';
 
 const getItem = (data: any, index: number) => {
+  const itemData = data[index];
+
   return {
-    code: data[index].code,
-    unit: data[index].unit,
-    state: data[index].state,
-    district: data[index].district,
-    ro: data[index].ro,
-    basin: data[index].basin,
-    location: data[index].location,
-    coordinates: data[index].coordinates,
+    _id: itemData._id,
+    code: itemData.factory.unitcode,
+    unit: itemData.factory.name,
+    state: itemData.factory.state.name,
+    district: itemData.factory.district.name,
+    ro: itemData.factory.region,
+    basin: itemData.factory.basin.name,
+    coordinates: itemData.factory.location.coordinates,
   };
 };
 
@@ -46,37 +48,37 @@ const getItemCount = (data: any) => {
 };
 
 const Item = (data: any) => {
-  const onDirection = () => {
-    const data = {
-      destination: {
-        latitude: 28.1601922,
-        longitude: 75.5235159,
-      },
-      params: [
-        {
-          key: 'travelmode',
-          value: 'driving', // may be "walking", "bicycling" or "transit" as well
-        },
-        {
-          key: 'dir_action',
-          value: 'navigate', // this instantly initializes navigation using the given travel mode
-        },
-      ],
-    };
+  // const onDirection = () => {
+  //   const data = {
+  //     destination: {
+  //       latitude: 28.1601922,
+  //       longitude: 75.5235159,
+  //     },
+  //     params: [
+  //       {
+  //         key: 'travelmode',
+  //         value: 'driving', // may be "walking", "bicycling" or "transit" as well
+  //       },
+  //       {
+  //         key: 'dir_action',
+  //         value: 'navigate', // this instantly initializes navigation using the given travel mode
+  //       },
+  //     ],
+  //   };
 
-    getDirections(data);
-  };
+  //   getDirections(data);
+  // };
   const onFactory = () =>
     NavigationService.navigate('Factory', {
+      _id: data.name._id,
       unit: data.name.unit,
       code: data.name.code,
-      geo: { lat: 23.364504, lon: 85.250418 },
     });
   return (
     <Card
       style={{
         width: '100%',
-        height: 70,
+        height: 80,
         borderRadius: 0,
         position: 'relative',
         display: 'flex',
@@ -93,21 +95,21 @@ const Item = (data: any) => {
             justifyContent: 'center',
             position: 'relative',
           }}>
-          <Title>
-            {data.name.code} - {data.name.unit.substring(0, 20)}...
-          </Title>
+          <Text style={{ fontWeight: '800' }}>
+            {data.name.code} - {data.name.unit}
+          </Text>
           <Caption>
             {data.name.ro} - {data.name.district} - {data.name.state}
           </Caption>
         </View>
       </TouchableRipple>
-      <IconButton
+      {/* <IconButton
         icon="directions"
         color={Colors.blue500}
         size={40}
         onPress={onDirection}
         style={{ position: 'absolute', right: 0, zIndex: 10 }}
-      />
+      /> */}
     </Card>
   );
 };
@@ -115,7 +117,7 @@ const FlatListItemSeparator = () => {
   return <Divider />;
 };
 
-const KEYS_TO_FILTERS = ['code', 'unit'];
+const KEYS_TO_FILTERS = ['factory.name', 'factory.unitcode', 'factory.region'];
 
 const FactoryList = ({ route }) => {
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -123,9 +125,9 @@ const FactoryList = ({ route }) => {
     setSearchQuery(query);
   };
   let DATA = [];
-  DATA = useSelector((state: any) => state.inspectionReducer.factory).filter(
-    (e) => e.sector === route.params.sector,
-  );
+  DATA = useSelector(
+    (state: any) => state.inspectionReducer.inspections,
+  ).filter((e) => e.factory.sector.name === route.params.sector);
   DATA = DATA.filter(createFilter(searchQuery, KEYS_TO_FILTERS));
 
   return (
@@ -137,9 +139,9 @@ const FactoryList = ({ route }) => {
       />
       <VirtualizedList
         data={DATA}
-        initialNumToRender={4}
+        initialNumToRender={10}
         renderItem={({ item }) => <Item name={item} />}
-        keyExtractor={(item) => item.unit}
+        keyExtractor={(item) => item._id}
         getItemCount={getItemCount}
         getItem={getItem}
         ItemSeparatorComponent={FlatListItemSeparator}

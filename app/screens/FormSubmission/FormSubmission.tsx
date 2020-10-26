@@ -168,86 +168,43 @@ const FormSubmission: React.FC = ({ route }) => {
                   </Title>
                   <TextInput
                     style={styles.inputContainerStyle}
-                    placeholder={'Consented Production capacity'}
-                    label={'Capacity'}
+                    placeholder={'XXX TCD'}
+                    label={'Consented Production capacity in (TCD/TPD/KLD)'}
                     mode={'outlined'}
                   />
                 </View>
                 <View>
                   <Title style={styles.inputContainerTitle}>
-                    Installed Production Capacity (TCD)
+                    Installed Production Capacity
                   </Title>
                   <TextInput
                     style={styles.inputContainerStyle}
-                    placeholder={'Installed Production Capacity (TCD)'}
-                    label={'Installed Production'}
+                    placeholder={'XXX TCD'}
+                    label={'Installed Production Capacity in (TCD/TPD/KLD)'}
                     mode={'outlined'}
                   />
                 </View>
                 <View>
                   <Title style={styles.inputContainerTitle}>
-                    Installed Production Capacity (TPD)
+                    Present production of previous day
                   </Title>
                   <TextInput
                     style={styles.inputContainerStyle}
-                    placeholder={'Installed Production Capacity (TPD)'}
-                    label={'Installed Production'}
+                    placeholder={'XXX TCD'}
+                    label={
+                      'Present production of previous day in (TCD/TPD/KLD)'
+                    }
                     mode={'outlined'}
                   />
                 </View>
                 <View>
                   <Title style={styles.inputContainerTitle}>
-                    Installed Production Capacity (KPD)
+                    Fresh water withdrawal Previous day based on flow meter
                   </Title>
                   <TextInput
                     style={styles.inputContainerStyle}
-                    placeholder={'Installed Production Capacity (KPD)'}
-                    label={'Installed Production'}
-                    mode={'outlined'}
-                  />
-                </View>
-                <View>
-                  <Title style={styles.inputContainerTitle}>
-                    Present production (of previous day) (TCD)
-                  </Title>
-                  <TextInput
-                    style={styles.inputContainerStyle}
-                    placeholder={'Present production (of previous day) (TCD)'}
-                    label={'Present production'}
-                    mode={'outlined'}
-                  />
-                </View>
-                <View>
-                  <Title style={styles.inputContainerTitle}>
-                    Present production (of previous day) (TPD)
-                  </Title>
-                  <TextInput
-                    style={styles.inputContainerStyle}
-                    placeholder={'Present production (of previous day) (TPD)'}
-                    label={'Present production'}
-                    mode={'outlined'}
-                  />
-                </View>
-                <View>
-                  <Title style={styles.inputContainerTitle}>
-                    Present production (of previous day) (KPD)
-                  </Title>
-                  <TextInput
-                    style={styles.inputContainerStyle}
-                    placeholder={'Present production (of previous day) (KPD)'}
-                    label={'Present production'}
-                    mode={'outlined'}
-                  />
-                </View>
-                <View>
-                  <Title style={styles.inputContainerTitle}>
-                    Fresh water withdrawal (Previous day based on flow meter)
-                    (KLD)
-                  </Title>
-                  <TextInput
-                    style={styles.inputContainerStyle}
-                    placeholder={'Fresh water withdrawal'}
-                    label={'Fresh water withdrawal'}
+                    placeholder={'KLD'}
+                    label={'KLD'}
                     mode={'outlined'}
                   />
                 </View>
@@ -290,6 +247,14 @@ const FormSubmission: React.FC = ({ route }) => {
                       value="Directly to river Ganga"
                     />
                   </RadioButton.Group>
+                  {drain !== 'Directly to river Ganga' ? (
+                    <TextInput
+                      style={styles.inputContainerStyle}
+                      placeholder={`${drain} name`}
+                      label={drain}
+                      mode={'outlined'}
+                    />
+                  ) : null}
                 </View>
 
                 <View>
@@ -493,8 +458,8 @@ const FormSubmission: React.FC = ({ route }) => {
                   </Title>
                   <TextInput
                     style={styles.inputContainerStyle}
-                    placeholder={'Flow meter at ETP outlet Current day'}
-                    label={'Flow meter at ETP outlet Current day'}
+                    placeholder={'Flow meter at ETP outlet Previous day'}
+                    label={'Flow meter at ETP outlet Previous day'}
                     mode={'outlined'}
                   />
                 </View>

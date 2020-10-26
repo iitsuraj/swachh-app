@@ -19,7 +19,7 @@ const Dashboard: React.FC = () => {
           <View style={styles.cardcontainer}>
             <Card style={styles.card}>
               <TouchableRipple
-                onPress={() => console.log('Pressed')}
+                // onPress={() => console.log('Pressed')}
                 rippleColor="rgba(0, 0, 0, .32)"
                 borderless={true}
                 style={styles.ripple}>
@@ -38,7 +38,7 @@ const Dashboard: React.FC = () => {
             </Card>
             <Card style={styles.card}>
               <TouchableRipple
-                onPress={() => console.log('Pressed')}
+                // onPress={() => console.log('Pressed')}
                 rippleColor="rgba(0, 0, 0, .32)"
                 borderless={true}
                 style={styles.ripple}>
@@ -49,7 +49,7 @@ const Dashboard: React.FC = () => {
                   </View>
                   <View>
                     <Text style={[styles.title, styles.number]}>
-                      {dashboard.totalDone}
+                      {dashboard.totalInspected}
                     </Text>
                   </View>
                 </View>
@@ -57,18 +57,18 @@ const Dashboard: React.FC = () => {
             </Card>
             <Card style={styles.card}>
               <TouchableRipple
-                onPress={() => console.log('Pressed')}
+                // onPress={() => console.log('Pressed')}
                 rippleColor="rgba(0, 0, 0, .32)"
                 borderless={true}
                 style={styles.ripple}>
                 <View style={styles.media}>
                   <View>
-                    <Title style={styles.title}>Total Remaining</Title>
-                    <Caption>Remaining Factory</Caption>
+                    <Title style={styles.title}>Total Completed</Title>
+                    <Caption>Completed Factory</Caption>
                   </View>
                   <View>
                     <Text style={[styles.title, styles.number]}>
-                      {dashboard.totalRemaining}
+                      {dashboard.totalCompleted}
                     </Text>
                   </View>
                 </View>

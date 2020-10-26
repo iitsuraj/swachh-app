@@ -5,7 +5,7 @@ export interface ILoginRequestState {
 }
 
 interface IResponse {
-  id: number;
+  token: string;
 }
 
 export interface ILoginResponseState {

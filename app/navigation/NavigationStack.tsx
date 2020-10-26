@@ -13,7 +13,6 @@ import FactoryScreen from 'app/screens/Factory';
 import ForgotPassword from 'app/screens/ForgotPassword';
 import FormSubmission from 'app/screens/FormSubmission';
 import CameraScreen from 'app/screens/Camera';
-import ThemeController from '../components/ThemeController';
 import { StatusBar } from 'react-native';
 import { ILoginState } from 'app/models/reducers/login';
 import Sos from 'app/screens/Sos';
@@ -52,7 +51,7 @@ const AuthNavigator = () => {
           // When logging out, a pop animation feels intuitive
           // You can remove this if you want the default 'push' animation
           animationTypeForReplace: isLoggedIn ? 'push' : 'pop',
-          headerRight: () => <ThemeController />,
+          // headerRight: () => <ThemeController />,
         }}
       />
       <Stack.Screen
@@ -62,7 +61,7 @@ const AuthNavigator = () => {
           // When logging out, a pop animation feels intuitive
           // You can remove this if you want the default 'push' animation
           animationTypeForReplace: isLoggedIn ? 'push' : 'pop',
-          headerRight: () => <ThemeController />,
+          // headerRight: () => <ThemeController />,
         }}
       />
     </AuthStack.Navigator>
@@ -97,7 +96,7 @@ const DashboardStackScreen = () => (
           fontWeight: 'bold',
         },
 
-        headerRight: () => <ThemeController />,
+        // headerRight: () => <ThemeController />,
       }}
     />
   </HomeStack.Navigator>
@@ -113,7 +112,7 @@ const SectorStackScreen = () => (
           fontWeight: 'bold',
         },
 
-        headerRight: () => <ThemeController />,
+        // headerRight: () => <ThemeController />,
       }}
     />
   </HomeStack.Navigator>
@@ -181,7 +180,7 @@ const App: React.FC<IProps> = (props: IProps) => {
               // When logging out, a pop animation feels intuitive
               // You can remove this if you want the default 'push' animation
               animationTypeForReplace: isLoggedIn ? 'push' : 'pop',
-              headerRight: () => <ThemeController />,
+              // headerRight: () => <ThemeController />,
             }}
           />
         )}

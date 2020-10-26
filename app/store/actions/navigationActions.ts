@@ -10,3 +10,6 @@ export function navigateToHome(params: any) {
 export function navigateToForgotPassword(params?: any) {
   NavigationService.navigate('ForgotPassword', params);
 }
+export function navigateToSectors() {
+  NavigationService.navigate('Sectors');
+}
