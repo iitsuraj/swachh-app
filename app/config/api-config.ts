@@ -1,7 +1,7 @@
 /* App config for apis
  */
 const ApiConfig = {
-  BASE_URL: 'http://192.168.0.114:9090',
+  BASE_URL: 'http://157.245.97.9',
   LOGIN: 'api/auth/login',
   DASHBOARDSTATUS: 'api/inspection/mystatus',
   MYINSPECTION: 'api/inspection/myinspection',

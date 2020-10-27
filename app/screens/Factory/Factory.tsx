@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -452,7 +452,7 @@ const Factory: React.FC = ({ route }) => {
     (state: any) => state.fieldReportReducer,
   );
   const fieldId = route.params._id;
-  let savelocaldata = state;
+  const stateRef = useRef();
   useEffect(() => {
     // findReport
     // console.log(fieldReports.fieldReports)
@@ -468,16 +468,25 @@ const Factory: React.FC = ({ route }) => {
     } else {
       setLoading(false);
     }
+
     return () => {
       // Save State
       // Check data ready for save to state
+      saveState();
       mounted = false;
     };
   }, []);
 
   useEffect(() => {
-    dispatch(fieldReportActions.saveLocalFunction(savelocaldata));
+    stateRef.current = state;
   }, [state]);
+
+  // TODO:
+  // useEffect(() => {
+  //   dispatch(fieldReportActions.saveLocalFunction(savelocaldata));
+  // }, [state]);
+  const saveState = () =>
+    dispatch(fieldReportActions.saveLocalFunction(stateRef.current));
 
   return (
     <SafeAreaView>
