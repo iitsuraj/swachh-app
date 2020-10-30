@@ -2,14 +2,6 @@ import React from 'react';
 import { View, SafeAreaView, Text, Image, Dimensions } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
-{
-  /* <FastImage
-                          style={styles.fullImageStyle}
-                          source={{ uri: imageuri }}
-                          resizeMode={FastImage.resizeMode.contain}
-                        /> */
-}
-
 const SplashScreen: React.FC = () => {
   return (
     <View
@@ -61,6 +53,7 @@ const SplashScreen: React.FC = () => {
           <Text style={{ marginBottom: 50 }}>
             Powered by
             <Text style={{ color: '#127D79', fontWeight: 'bold' }}>
+              {' '}
               Infogile
             </Text>
           </Text>

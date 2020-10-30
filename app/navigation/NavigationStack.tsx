@@ -28,7 +28,7 @@ const homeOptions = {
 };
 const SectorOptions = {
   tabBarIcon: 'account-settings',
-  tabBarLabel: 'Insepection',
+  tabBarLabel: 'Inspection',
 };
 
 const ProfileOptions = {
@@ -116,7 +116,7 @@ const SectorStackScreen = () => (
       name="Sector"
       component={Sector}
       options={{
-        title: 'Insepection',
+        title: 'Inspection',
         headerTitleStyle: {
           fontWeight: 'bold',
         },
@@ -135,11 +135,11 @@ const ProfileStackScreen = () => (
     />
   </HomeStack.Navigator>
 );
-const Insepection = createStackNavigator();
+const Inspection = createStackNavigator();
 const InsepectionStackScreen = () => (
-  <Insepection.Navigator>
-    <Insepection.Screen name=" FactoryList" component={InsepectionScreen} />
-  </Insepection.Navigator>
+  <Inspection.Navigator>
+    <Inspection.Screen name=" FactoryList" component={InsepectionScreen} />
+  </Inspection.Navigator>
 );
 
 const LoggedInNavigator = () => (
@@ -168,26 +168,26 @@ const App: React.FC<IProps> = (props: IProps) => {
               options={{ headerShown: false }}
             />
 
-            <Insepection.Screen
+            <Inspection.Screen
               name="Factory"
               component={FactoryScreen}
               options={({ route }) => ({
                 title: `${route.params.code} - ${route.params.unit}`,
               })}
             />
-            <Insepection.Screen
+            <Inspection.Screen
               name="Factory Details"
               component={FormSubmission}
             />
-            <Insepection.Screen
+            <Inspection.Screen
               name="Factory List"
               component={InsepectionScreen}
               options={({ route }) => ({
                 title: `${route.params.sector}`,
               })}
             />
-            <Insepection.Screen name="Report Factory" component={Sos} />
-            <Insepection.Screen name="Camera" component={CameraScreen} />
+            <Inspection.Screen name="Report Factory" component={Sos} />
+            <Inspection.Screen name="Camera" component={CameraScreen} />
           </>
         ) : (
           <Stack.Screen
