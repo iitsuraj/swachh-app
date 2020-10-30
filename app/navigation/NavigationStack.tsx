@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { navigationRef } from './NavigationService';
-
+import Profile from 'app/screens/Profile';
 import Login from 'app/screens/Login';
 import DashboardScreen from 'app/screens/Dashboard';
 import InsepectionScreen from 'app/screens/Inspection';
@@ -29,6 +29,11 @@ const homeOptions = {
 const SectorOptions = {
   tabBarIcon: 'account-settings',
   tabBarLabel: 'Insepection',
+};
+
+const ProfileOptions = {
+  tabBarIcon: 'account',
+  tabBarLabel: 'Profile',
 };
 interface IState {
   loginReducer: ILoginState;
@@ -69,7 +74,7 @@ const AuthNavigator = () => {
 };
 
 const TabScreen = () => (
-  <Tabs.Navigator shifting={true}>
+  <Tabs.Navigator>
     <Tabs.Screen
       name="Dashboard"
       component={DashboardStackScreen}
@@ -80,7 +85,11 @@ const TabScreen = () => (
       component={SectorStackScreen}
       options={SectorOptions}
     />
-    {/* <Tabs.Screen name="Profile" component={ProfileScreen} /> */}
+    <Tabs.Screen
+      name="Profile"
+      component={ProfileStackScreen}
+      options={ProfileOptions}
+    />
   </Tabs.Navigator>
 );
 
@@ -107,7 +116,7 @@ const SectorStackScreen = () => (
       name="Sector"
       component={Sector}
       options={{
-        title: 'Sector',
+        title: 'Insepection',
         headerTitleStyle: {
           fontWeight: 'bold',
         },
@@ -117,7 +126,15 @@ const SectorStackScreen = () => (
     />
   </HomeStack.Navigator>
 );
-
+const ProfileStackScreen = () => (
+  <HomeStack.Navigator>
+    <HomeStack.Screen
+      name="Profile"
+      component={Profile}
+      options={{ headerShown: false }}
+    />
+  </HomeStack.Navigator>
+);
 const Insepection = createStackNavigator();
 const InsepectionStackScreen = () => (
   <Insepection.Navigator>
@@ -166,7 +183,7 @@ const App: React.FC<IProps> = (props: IProps) => {
               name="Factory List"
               component={InsepectionScreen}
               options={({ route }) => ({
-                title: `${route.params.sector} factory`,
+                title: `${route.params.sector}`,
               })}
             />
             <Insepection.Screen name="Report Factory" component={Sos} />

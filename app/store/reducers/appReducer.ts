@@ -22,4 +22,10 @@ export const appReducer = createReducer(initialState, {
       lastSuccessfullyFetched: action.date,
     };
   },
+  [types.LOG_OUT](state: any) {
+    return {
+      ...state,
+      lastSuccessfullyFetched: '2020-09-21T04:43:52.000Z',
+    };
+  },
 });

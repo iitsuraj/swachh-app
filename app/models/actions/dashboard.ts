@@ -1,7 +1,8 @@
 export interface IDashboardDataResponse {
   totalAssigned: number;
-  totalDone: number;
-  totalRemaining: number;
+  totalInspected: number;
+  totalClosed: number;
+  totalBypass: number;
 }
 
 export interface IDashboardDataRequest {

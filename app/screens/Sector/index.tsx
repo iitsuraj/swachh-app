@@ -1,44 +1,53 @@
 import * as React from 'react';
-import { View, SafeAreaView, ScrollView } from 'react-native';
-import { Card, TouchableRipple, Title } from 'react-native-paper';
+import { View, SafeAreaView, ScrollView, Image } from 'react-native';
+import { Card, TouchableRipple, Text } from 'react-native-paper';
+import { useSelector } from 'react-redux';
 import { StyleSheet } from 'react-native';
 import NavigationService from 'app/navigation/NavigationService';
-
-const SectorName = [
-  'chemical',
-  'distillery',
-  'fertilizer',
-  'food & beverages',
-  'oil & refinery',
-  'pesticide',
-  'petrochemical',
-  'pharmaceutical',
-  'pulp & paper',
-  'slaughter house',
-  'sugar',
-  'tannery',
-  'textile',
-  'others',
-];
+import _ from 'lodash';
+import Images from 'app/assets/icons';
 const Sector: React.FC = () => {
-  const goTo = (name) =>
-    NavigationService.navigate('Factory List', { sector: name });
+  const goTo = (name, data) =>
+    NavigationService.navigate('Factory List', { sector: name, data: data });
+  let data;
+  data = useSelector((state: any) => state.inspectionReducer.inspections);
+  // console.log('reducer', data);
+  data = _.chain(data)
+    .groupBy('factory.sector.name')
+    .map(function (items, sector) {
+      return {
+        name: sector,
+        count: items.length,
+        factory: items,
+        iconSrc: `${sector.replace(' & ', '').replace(' ', '')}`,
+      };
+    })
+    .orderBy((group) => Number(group.count), ['desc'])
+    .value();
+  // console.log('lodash', data);
   return (
     <SafeAreaView>
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.cardcontainer}>
-            {SectorName.map((sector) => (
-              <Card style={styles.card} key={sector}>
+            {data.map((sector) => (
+              <Card style={styles.card} key={sector.name}>
                 <TouchableRipple
-                  onPress={() => goTo(sector)}
+                  onPress={() => goTo(sector.name, sector.factory)}
                   rippleColor="rgba(0, 0, 0, .32)"
                   borderless={true}
                   style={styles.ripple}>
                   <View style={styles.media}>
-                    <View>
-                      <Title style={styles.title}>{sector}</Title>
-                    </View>
+                    <Image
+                      style={{
+                        width: 60,
+                        height: 60,
+                      }}
+                      source={Images[sector.iconSrc]}
+                    />
+                    <Text style={styles.title}>
+                      {sector.name} - {sector.count}
+                    </Text>
                   </View>
                 </TouchableRipple>
               </Card>
@@ -61,22 +70,33 @@ const styles = StyleSheet.create({
     marginRight: 8,
     marginBottom: 8,
     marginTop: 8,
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   card: {
-    marginBottom: 8,
-    borderRadius: 10,
-    width: '100%',
-    height: 70,
+    marginBottom: 5,
+    borderRadius: 5,
+    width: '48%',
+    height: 130,
   },
   media: {
+    // width: '100%',
+    // flex: 1,
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    // justifyContent: 'space-between',
     width: '100%',
+    height: '100%',
     flex: 1,
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    position: 'relative',
   },
   title: {
     fontWeight: 'bold',
+    marginTop: 10,
   },
   number: {
     fontSize: 50,

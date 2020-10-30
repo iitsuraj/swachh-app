@@ -11,7 +11,7 @@ import {
   ToastAndroid,
 } from 'react-native';
 import getDirections from 'react-native-google-maps-directions';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   Text,
   Card,
@@ -138,7 +138,7 @@ const FactoryList = ({ route }) => {
         value={searchQuery}
       />
       <VirtualizedList
-        data={DATA}
+        data={route.params.data}
         initialNumToRender={10}
         renderItem={({ item }) => <Item name={item} />}
         keyExtractor={(item) => item._id}

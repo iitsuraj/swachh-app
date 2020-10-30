@@ -175,4 +175,11 @@ export const fieldReportReducer = createReducer(initialState, {
       ...state,
     };
   },
+  [types.LOG_OUT](state: any) {
+    return {
+      ...state,
+      fieldReports: [],
+      serverReports: [],
+    };
+  },
 });

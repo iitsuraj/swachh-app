@@ -44,6 +44,9 @@ export const loginReducer = createReducer(initialState, {
     return {
       ...state,
       isLoggedIn: false,
+      token: '',
+      username: '',
+      password: '',
     };
   },
 });

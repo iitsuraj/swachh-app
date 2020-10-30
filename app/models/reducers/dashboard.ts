@@ -1,6 +1,7 @@
 export interface IDashboard {
   totalAssigned: number;
   totalInspected: number;
-  totalCompleted: number;
+  totalClosed: number;
+  totalBypass: number;
   loading: false;
 }

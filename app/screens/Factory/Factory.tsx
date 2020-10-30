@@ -1200,7 +1200,7 @@ const Factory: React.FC = ({ route }) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <Title>Take Selfi for start process</Title>
+                  <Title>Take Selfie for start process</Title>
                   <Button
                     mode="contained"
                     icon="camera"
@@ -1208,7 +1208,7 @@ const Factory: React.FC = ({ route }) => {
                     onPress={() =>
                       setState({ ...state, type: 'front', openCamera: true })
                     }>
-                    Take Selfi
+                    Take Selfie
                   </Button>
                 </View>
               )}

@@ -22,6 +22,7 @@ import Navigator from 'app/navigation';
 import configureStore from 'app/store';
 import { ILoginState } from 'app/models/reducers/login';
 import setAuthHeader from './utils/setAuthHeader';
+import SplashScreen from 'app/screens/SplashScreen/SplashScreen';
 
 const CombinedDefaultTheme = {
   ...PaperDefaultTheme,
@@ -81,7 +82,12 @@ const RootNavigation: React.FC = () => {
 const Entrypoint: React.FC = () => {
   return (
     <Provider store={store}>
-      <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+      <PersistGate
+        loading={<SplashScreen />}
+        persistor={persistor}
+        onBeforeLift={() =>
+          new Promise((resolve) => setTimeout(resolve, 2000))
+        }>
         <RootNavigation />
       </PersistGate>
     </Provider>

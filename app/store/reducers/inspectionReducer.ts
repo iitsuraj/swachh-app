@@ -58,4 +58,10 @@ export const inspectionReducer = createReducer(initialState, {
       ...state,
     };
   },
+  [types.LOG_OUT](state: any) {
+    return {
+      ...state,
+      inspections: [],
+    };
+  },
 });
