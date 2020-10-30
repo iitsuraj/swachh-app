@@ -6,57 +6,65 @@ import { StyleSheet } from 'react-native';
 import NavigationService from 'app/navigation/NavigationService';
 import _ from 'lodash';
 import Images from 'app/assets/icons';
-const Sector: React.FC = () => {
-  const goTo = (name, data) =>
-    NavigationService.navigate('Factory List', { sector: name, data: data });
-  let data;
+import { useIsFocused } from '@react-navigation/native';
+const Sector = () => {
+  const isFocused = useIsFocused();
+
   data = useSelector((state: any) => state.inspectionReducer.inspections);
-  // console.log('reducer', data);
-  data = _.chain(data)
-    .groupBy('factory.sector.name')
-    .map(function (items, sector) {
-      return {
-        name: sector,
-        count: items.length,
-        factory: items,
-        iconSrc: `${sector.replace(' & ', '').replace(' ', '')}`,
-      };
-    })
-    .orderBy((group) => Number(group.count), ['desc'])
-    .value();
-  // console.log('lodash', data);
-  return (
-    <SafeAreaView>
-      <ScrollView>
-        <View style={styles.container}>
-          <View style={styles.cardcontainer}>
-            {data.map((sector) => (
-              <Card style={styles.card} key={sector.name}>
-                <TouchableRipple
-                  onPress={() => goTo(sector.name, sector.factory)}
-                  rippleColor="rgba(0, 0, 0, .32)"
-                  borderless={true}
-                  style={styles.ripple}>
-                  <View style={styles.media}>
-                    <Image
-                      style={{
-                        width: 60,
-                        height: 60,
-                      }}
-                      source={Images[sector.iconSrc]}
-                    />
-                    <Text style={styles.title}>
-                      {sector.name} - {sector.count}
-                    </Text>
-                  </View>
-                </TouchableRipple>
-              </Card>
-            ))}
+  let data;
+  if (isFocused) {
+    data = _.chain(data)
+      .groupBy('factory.sector.name')
+      .map(function (items, sector) {
+        return {
+          name: sector,
+          count: items.length,
+          factory: items,
+          iconSrc: `${sector.replace(' & ', '').replace(' ', '')}`,
+        };
+      })
+      .orderBy((group) => Number(group.count), ['desc'])
+      .value();
+
+    const goTo = (name, data) =>
+      NavigationService.navigate('Factory List', { sector: name, data: data });
+    return (
+      <SafeAreaView>
+        <ScrollView>
+          <View style={styles.container}>
+            {data && Array.isArray(data) && data.length > 0 ? (
+              <View style={styles.cardcontainer}>
+                {data.map((sector) => (
+                  <Card style={styles.card} key={sector.name}>
+                    <TouchableRipple
+                      onPress={() => goTo(sector.name, sector.factory)}
+                      rippleColor="rgba(0, 0, 0, .32)"
+                      borderless={true}
+                      style={styles.ripple}>
+                      <View style={styles.media}>
+                        <Image
+                          style={{
+                            width: 60,
+                            height: 60,
+                          }}
+                          source={Images[sector.iconSrc]}
+                        />
+                        <Text style={styles.title}>
+                          {sector.name} - {sector.count}
+                        </Text>
+                      </View>
+                    </TouchableRipple>
+                  </Card>
+                ))}
+              </View>
+            ) : null}
           </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+        </ScrollView>
+      </SafeAreaView>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default Sector;

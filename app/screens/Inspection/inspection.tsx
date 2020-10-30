@@ -30,7 +30,6 @@ import NavigationService from 'app/navigation/NavigationService';
 
 const getItem = (data: any, index: number) => {
   const itemData = data[index];
-
   return {
     _id: itemData._id,
     code: itemData.factory.unitcode,
@@ -120,6 +119,7 @@ const FlatListItemSeparator = () => {
 const KEYS_TO_FILTERS = ['factory.name', 'factory.unitcode', 'factory.region'];
 
 const FactoryList = ({ route }) => {
+  console.log('inspectReducer');
   const [searchQuery, setSearchQuery] = React.useState('');
   const onChangeSearch = (query) => {
     setSearchQuery(query);

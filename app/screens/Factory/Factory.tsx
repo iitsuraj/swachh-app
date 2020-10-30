@@ -1238,11 +1238,11 @@ const Factory: React.FC = ({ route }) => {
                   flexDirection: 'row',
                   justifyContent: 'center',
                 }}>
-                <TouchableOpacity onPress={takePicture} style={styles.capture}>
-                  <Title style={{ fontSize: 14 }}> SNAP </Title>
-                </TouchableOpacity>
                 <TouchableOpacity onPress={closeCamera} style={styles.capture}>
                   <Title style={{ fontSize: 14 }}> Go Back </Title>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={takePicture} style={styles.capture}>
+                  <Title style={{ fontSize: 14 }}> SNAP </Title>
                 </TouchableOpacity>
               </View>
             </RNCamera>
