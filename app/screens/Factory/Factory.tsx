@@ -1159,7 +1159,7 @@ const Factory: React.FC = ({ route }) => {
                     icon={state.open ? 'close' : 'plus'}
                     actions={[
                       {
-                        label: 'add photos',
+                        label: 'attach photos',
                         icon: 'image-multiple',
                         onPress: () => setFabAction('upload-files'),
                       },
@@ -1200,7 +1200,7 @@ const Factory: React.FC = ({ route }) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <Title>Take Selfie for start process</Title>
+                  <Title>Take selfie to start inspection</Title>
                   <Button
                     mode="contained"
                     icon="camera"
