@@ -119,15 +119,12 @@ const FlatListItemSeparator = () => {
 const KEYS_TO_FILTERS = ['factory.name', 'factory.unitcode', 'factory.region'];
 
 const FactoryList = ({ route }) => {
-  console.log('inspectReducer');
   const [searchQuery, setSearchQuery] = React.useState('');
   const onChangeSearch = (query) => {
     setSearchQuery(query);
   };
   let DATA = [];
-  DATA = useSelector(
-    (state: any) => state.inspectionReducer.inspections,
-  ).filter((e) => e.factory.sector.name === route.params.sector);
+  DATA = route.params.data;
   DATA = DATA.filter(createFilter(searchQuery, KEYS_TO_FILTERS));
 
   return (
@@ -138,7 +135,7 @@ const FactoryList = ({ route }) => {
         value={searchQuery}
       />
       <VirtualizedList
-        data={route.params.data}
+        data={DATA}
         initialNumToRender={10}
         renderItem={({ item }) => <Item name={item} />}
         keyExtractor={(item) => item._id}
