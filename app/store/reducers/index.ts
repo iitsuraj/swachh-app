@@ -7,7 +7,7 @@ import * as themeReducer from './themeReducer';
 import * as dashboard from './dashboardReducer';
 import * as inspection from './inspectionReducer';
 import * as appReducer from './appReducer';
-import * as fieldReportReducer from "./fieldReportReducer"
+import * as fieldReportReducer from './fieldReportReducer';
 export default Object.assign(
   loginReducer,
   loadingReducer,
@@ -15,5 +15,5 @@ export default Object.assign(
   dashboard,
   inspection,
   appReducer,
-  fieldReportReducer
+  fieldReportReducer,
 );
