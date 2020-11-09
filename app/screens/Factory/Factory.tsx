@@ -36,7 +36,7 @@ import * as fieldReportActions from 'app/store/actions/fieldReportAction';
 import DocumentPicker from 'react-native-document-picker';
 import Geolocation from '@react-native-community/geolocation';
 import FastImage from 'react-native-fast-image';
-
+import { ProgressBar } from '@react-native-community/progress-bar-android';
 const Factory: React.FC = ({ route }) => {
   let mounted = true;
   const dispatch = useDispatch();
@@ -237,7 +237,7 @@ const Factory: React.FC = ({ route }) => {
       // send to server
       setLoading(true);
       setState({ ...state, sendToserver: true });
-      dispatch(fieldReportActions.saveServerData(data));
+      dispatch(fieldReportActions.saveServerData(data, changeProgress));
     }
   };
 
@@ -280,7 +280,7 @@ const Factory: React.FC = ({ route }) => {
     } else {
       setLoading(true);
       setState({ ...state, sendToserver: true });
-      dispatch(fieldReportActions.saveServerData(data));
+      dispatch(fieldReportActions.saveServerData(data, changeProgress));
     }
   };
 
@@ -407,7 +407,7 @@ const Factory: React.FC = ({ route }) => {
       // Send it to server
       setLoading(true);
       setState({ ...state, sendToserver: true });
-      dispatch(fieldReportActions.saveServerData(data));
+      dispatch(fieldReportActions.saveServerData(data, changeProgress));
     }
   };
 
@@ -436,17 +436,6 @@ const Factory: React.FC = ({ route }) => {
   const [errors, setErrors] = useState([]);
 
   const [loading, setLoading] = useState(true);
-
-  // setLoading(false)
-  // if(!myReport) {
-  //   // Set fieldReport
-  //   // setState()
-  //   // console.log(myReport)
-  //   // setLoading(false)
-  //   setLoading(false)
-  // } else {
-
-  // }
 
   const fieldReportReducer = useSelector(
     (state: any) => state.fieldReportReducer,
@@ -481,13 +470,22 @@ const Factory: React.FC = ({ route }) => {
     stateRef.current = state;
   }, [state]);
 
-  // TODO:
-  // useEffect(() => {
-  //   dispatch(fieldReportActions.saveLocalFunction(savelocaldata));
-  // }, [state]);
   const saveState = () =>
     dispatch(fieldReportActions.saveLocalFunction(stateRef.current));
 
+  // const [progress, setProgress] = useState(0);
+  let progress = 0;
+
+  function changeProgress(precentUploaded) {
+    setProgressBarPrecent(precentUploaded);
+  }
+
+  const [progressBarPrecent, setProgressBarPrecent] = useState(0);
+
+  // useEffect(() => {
+  //   setProgressBarPrecent(progress);
+  //   console.log('progress', progressBarPrecent);
+  // }, [progress]);
   return (
     <SafeAreaView>
       {loading ? (
@@ -499,7 +497,18 @@ const Factory: React.FC = ({ route }) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <ActivityIndicator animating={true} />
+            {progress >= 0 ? (
+              <ProgressBar
+                styleAttr="Horizontal"
+                indeterminate={false}
+                progress={progressBarPrecent / 100}
+                color="#2196F3"
+                animating={true}
+                style={{ width: '80%' }}
+              />
+            ) : (
+              <ActivityIndicator animating={true} />
+            )}
           </View>
         </View>
       ) : (

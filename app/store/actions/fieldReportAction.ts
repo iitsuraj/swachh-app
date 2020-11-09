@@ -53,10 +53,11 @@ export function saveLocalFunction(data: any) {
 
 // save serverfields, remove localfield,
 
-export function saveServerData(data: any) {
+export function saveServerData(data: any, setProgress: any) {
   return {
     type: types.SUBMIT_TO_SERVER,
     data,
+    setProgress,
   };
 }
 
@@ -71,3 +72,4 @@ export function removeServerReportsById(id: string) {
 export function submitPendingRequest(requests: any) {
   return { type: types.SUBMIT_PENDING_AXIOS_REQUEST, events: requests };
 }
+
