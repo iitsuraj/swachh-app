@@ -497,7 +497,9 @@ const Factory: React.FC = ({ route }) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            {progress >= 0 ? (
+            {progress === 0 ? (
+              <ActivityIndicator animating={true} />
+            ) : (
               <ProgressBar
                 styleAttr="Horizontal"
                 indeterminate={false}
@@ -506,8 +508,6 @@ const Factory: React.FC = ({ route }) => {
                 animating={true}
                 style={{ width: '80%' }}
               />
-            ) : (
-              <ActivityIndicator animating={true} />
             )}
           </View>
         </View>
