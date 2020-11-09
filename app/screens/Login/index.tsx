@@ -13,6 +13,9 @@ const Login: React.FC = () => {
   const onChangeEmail = (email: string) => setEmail(email);
   const onChangePassword = (password: string) => setPassword(password);
   const onLogin = () => dispatch(loginActions.requestLogin(email, password));
+  const isLoginLoading = useSelector(
+    (state: any) => state.loadingReducer.isLoginLoading,
+  );
   return (
     <View style={styles.container}>
       <View style={{ width: '100%' }}>
@@ -42,7 +45,8 @@ const Login: React.FC = () => {
           mode="outlined"
           onPress={onLogin}
           icon="login"
-          style={styles.inputContainerStyle}>
+          style={styles.inputContainerStyle}
+          disabled={isLoginLoading}>
           Login
         </Button>
       </View>
