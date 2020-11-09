@@ -10,7 +10,7 @@ export default function* submitPendingAxiosRequest(action: any) {
     // map all requests
     // let promiseArray = events.map((data) => call(fieldReport, data));
     // const responseData = yield all(promiseArray);
-    // //   console.log('server response', responseData);
+    //   console.log('server response', responseData);
     for (var event of events) {
       const response = yield call(fieldReport, event);
       if (response.data.success) {
@@ -22,6 +22,6 @@ export default function* submitPendingAxiosRequest(action: any) {
     const dashboard = yield call(getDashboarsStatus);
     yield put(dashboardActions.onDashboardStatus(dashboard.data));
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 }
